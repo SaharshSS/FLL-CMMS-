@@ -8,7 +8,8 @@ left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right_motor = Motor(Port.B)
 
 # Initialize the drive base. In this example, the wheel diameter is 56mm.
-# The distance between the two wheel-ground contact points is 112mm.
+# The distance between the two wheel-ground contact points is 80mm.
+# If you would like to convert studs to mm, go here: http://studs.sariel.pl/
 drive_base = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=80)
 
 # Optionally, uncomment the line below to use the gyro for improved accuracy.
