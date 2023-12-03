@@ -12,8 +12,8 @@ right_motor = Motor(Port.B)
 # If you would like to convert studs to mm, go here: http://studs.sariel.pl/
 drive_base = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=80)
 
-# Optionally, uncomment the line below to use the gyro for improved accuracy.
-# drive_base.use_gyro(True)
+# Adds Gyro
+drive_base.use_gyro(True)
 
 # Drive forward by 500mm (half a meter).
 drive_base.straight(500)
