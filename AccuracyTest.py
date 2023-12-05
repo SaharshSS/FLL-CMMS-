@@ -16,6 +16,6 @@ drive_base = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_trac
 drive_base.use_gyro(True)
 
 
-
+# Set a meter stick on the floor and make sure that the robot travels 10 cm.
 drive_base.straight(1000)
 
