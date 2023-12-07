@@ -95,6 +95,10 @@ def Move(count = 0):
         action = Commands[count]
         if (action == "Test"):
             TestAll()
+            count = count - 1
+        else if (action == "Across"):
+            across()
+            count = count -1
         else if (action == "Done"):
             print("Program ended, shutting down")
             wait(100)
@@ -102,5 +106,8 @@ def Move(count = 0):
         else:
             status = "Error!"
             print(action + "not Supported")
+        actionCount = actionCount + 1
+        print("Count: " + str(count))
+        print("Action Count: " + str(actionCount))
 def across(): #Not sure of distance
     straight(400)
