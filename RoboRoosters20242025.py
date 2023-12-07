@@ -21,6 +21,7 @@ def Setup():
     print("Battery voltage: " + str(battery.voltage()) + " mV")
     print("Battery current: " + str(battery.current()) + " mA")
     print("BLE version: " + ble.version())
+    print("BLE dBm: " + str(ble.signal_strength()))
     if charger.connected():
         if (charger.status() == 1):
             print("Charging")
@@ -40,6 +41,7 @@ def Setup():
     drive.use_gyro(True)
     light.blink(color.red, 0.5)
     speaker.volume(100)
+    imu.reset_heading()
     speaker.beep()
     speaker.beep(600)
     speaker.beep(700, 200)
