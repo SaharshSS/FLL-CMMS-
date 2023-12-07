@@ -4,6 +4,7 @@ from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
 Commands = [
+    "Test",
     "Done"
 ]
 Status = "Starting"
@@ -13,12 +14,13 @@ def Setup():
     status="Loading"
     print(usys.implementation)
     print(usys.version)
-    system.name("Rooster")
+    print(system.name())
     if (system.reset_reason() == 2):
         print("Rebooting from error")
     print("Booting")
     print("Battery voltage: " + str(battery.voltage()) + " mV")
     print("Battery current: " + str(battery.current()) + " mA")
+    print("BLE version: " + ble.version())
     if charger.connected():
         if (charger.status() == 1):
             print("Charging")
@@ -37,15 +39,19 @@ def Setup():
     drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
     drive.use_gyro(True)
     light.blink(color.red, 0.5)
+    speaker.volume(100)
+    speaker.beep()
+    speaker.beep(600)
+    speaker.beep(700, 200)
 def turnArm(Arm1, Arm2, Mode = 2, Speed = 500):
     if (Mode = 2):
-        multitask(ArmA.run_target(Speed, Arm1, then = Stop.HOLD), ArmB.run_target(Speed, Arm2, then = Stop.HOLD))
+        multitask(ArmA.run_target(Speed, Arm1), ArmB.run_target(Speed, Arm2))
     if (Mode = 1):
-        ArmA.run_target(Speed, Arm1, then = Stop.HOLD)
-        ArmB.run_target(Speed, Arm2, then = Stop.HOLD)
+        ArmA.run_target(Speed, Arm1)
+        ArmB.run_target(Speed, Arm2)
     else:
-        ArmB.run_target(Speed, Arm2, then = Stop.HOLD)
-        ArmA.run_target(Speed, Arm1, then = Stop.HOLD)
+        ArmB.run_target(Speed, Arm2)
+        ArmA.run_target(Speed, Arm1)
 def TrackLine(Distance):
     NewDirection=0
     NewDistance=0
@@ -75,6 +81,7 @@ def TestAll():
         print("Success")
     else:
         print("Error")
+    print("Testing arm")
     turnArm(0, 0, 2, 1000)
     if (ArmA.angle() == 0 && ArmB.angle() == 0):
         print("Success")
@@ -85,3 +92,15 @@ def Move(count = 0):
     while (status != "Done"):
         count = count + 2
         movement = Commands[count-1]
+        action = Commands[count]
+        if (action == "Test"):
+            TestAll()
+        else if (action == "Done"):
+            print("Program ended, shutting down")
+            wait(100)
+            hub.system.shutdown()
+        else:
+            status = "Error!"
+            print(action + "not Supported")
+def across(): #Not sure of distance
+    straight(400)
