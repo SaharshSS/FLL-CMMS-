@@ -113,3 +113,7 @@ def Move(count = 0):
         print("Action Count: " + str(actionCount))
 def across(): #Not sure of distance
     straight(400)
+
+#@Kevin send the original Spike Prime file to your code so that I can help you translate.
+#Also, it looks really good so far, we might have to change the arrangement of the array though.
+
