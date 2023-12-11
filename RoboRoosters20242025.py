@@ -3,12 +3,16 @@ from pybricks.parameters import Color, Button, Port, Direction, Motor, Ultrasoni
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
+from math import sin, pi
+
 Commands = [
     "Test",
     "Done"
 ]
 Status = "Starting"
+
 def Setup():
+    hub = PrimeHub()
     hub.light.animate([Color.RED * (0.5 * sin(i / 15 * pi) + 0.5) for i in range(30)], 40)
     hub.system.set_stop_button(Button.BLUETOOTH)
     status="Loading"
@@ -25,7 +29,7 @@ def Setup():
     if charger.connected():
         if (charger.status() == 1):
             print("Charging")
-        else if (charger.status() == 2):
+        elif (charger.status() == 2):
             print("Battery full")
         else:
             print("Error!")
@@ -45,38 +49,42 @@ def Setup():
     speaker.beep()
     speaker.beep(600)
     speaker.beep(700, 200)
+
 def turnArm(Arm1, Arm2, Mode = 2, Speed = 500):
-    if (Mode = 2):
+    if (Mode == 2):
         multitask(ArmA.run_target(Speed, Arm1), ArmB.run_target(Speed, Arm2))
-    if (Mode = 1):
+    elif (Mode == 1):
         ArmA.run_target(Speed, Arm1)
         ArmB.run_target(Speed, Arm2)
     else:
         ArmB.run_target(Speed, Arm2)
         ArmA.run_target(Speed, Arm1)
+
 def TrackLine(Distance):
     NewDirection=0
     NewDistance=0
     while (Distance > NewDistance):
         if (ColorSense.color() == "White"):
-            if (NewDirection = 1):
+            if (NewDirection == 1):
                 NewDirection = 0
                 while (ColorSense.color() != "White"):
                     drive.curve(20, 1, Stop.COAST)
         else:
             NewDirection = 1
-                    if (ColorSense.color() == "White"):
-            if (NewDirection = 1):
-                NewDirection = 0
-                while (ColorSense.color() != "White"):
-                    drive.curve(-20, 1, Stop.COAST)
+            if (ColorSense.color() == "White"):
+                if (NewDirection == 1):
+                    NewDirection = 0
+                    while (ColorSense.color() != "White"):
+                        drive.curve(-20, 1, Stop.COAST)
         drive.straight(1)
         NewDistance=NewDistance+0.5
+
 def TrackLine1(Distance, Direction = True):
     NewDirection = 0
     NewDistance = 0
     while (Distance>NewDistance):
         #Code later Kevin annoying
+
 def TestAll():
     TestVar = int(input("Testing serial connection, please press one"))
     if (TestVar == 1):
@@ -85,10 +93,11 @@ def TestAll():
         print("Error")
     print("Testing arm")
     turnArm(0, 0, 2, 1000)
-    if (ArmA.angle() == 0 && ArmB.angle() == 0):
+    if (ArmA.angle() == 0 and ArmB.angle() == 0):
         print("Success")
     else:
         print("Error")
+
 def Move(count = 0):
     actionCount=0
     while (status != "Done"):
@@ -98,10 +107,10 @@ def Move(count = 0):
         if (action == "Test"):
             TestAll()
             count = count - 1
-        else if (action == "Across"):
+        elif (action == "Across"):
             across()
             count = count -1
-        else if (action == "Done"):
+        elif (action == "Done"):
             print("Program ended, shutting down")
             wait(100)
             hub.system.shutdown()
@@ -111,9 +120,6 @@ def Move(count = 0):
         actionCount = actionCount + 1
         print("Count: " + str(count))
         print("Action Count: " + str(actionCount))
+
 def across(): #Not sure of distance
     straight(400)
-
-#@Kevin send the original Spike Prime file to your code so that I can help you translate.
-#Also, it looks really good so far, we might have to change the arrangement of the array though.
-
