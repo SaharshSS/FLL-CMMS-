@@ -112,7 +112,7 @@ def Move(count = 0):
             TrackLine(movement)
         else:
             count = count - 1 #Single input functions EX: Across
-            elif (action == "Across"):
+            if (action == "Across"):
                 across()
             elif (action == "Done"):
                 print("Program ended, shutting down")
