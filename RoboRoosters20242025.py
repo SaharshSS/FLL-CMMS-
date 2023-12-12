@@ -9,7 +9,11 @@ Commands = [
     "Test",
     "Done"
 ]
-Status = "Starting"
+status = "Starting"
+def Main():
+    Setup()
+    Move()
+    system.shutdown()
 
 def Setup():
     hub = PrimeHub()
@@ -115,9 +119,8 @@ def Move(count = 0):
             if (action == "Across"):
                 across()
             elif (action == "Done"):
-                print("Program ended, shutting down")
+                print("Program ended")
                 wait(100)
-                hub.system.shutdown()
             else: #Tri input functions EX: Arm
                 count = count + 2
                 movement2 = Commands[count-2]
@@ -132,3 +135,6 @@ def Move(count = 0):
 
 def across(): #Not sure of distance
     straight(400)
+
+if __name__ == '__main__':
+    Main()
