@@ -104,19 +104,28 @@ def Move(count = 0):
         count = count + 2
         movement = Commands[count-1]
         action = Commands[count]
-        if (action == "Test"):
-            TestAll()
-            count = count - 1
-        elif (action == "Across"):
-            across()
-            count = count -1
-        elif (action == "Done"):
-            print("Program ended, shutting down")
-            wait(100)
-            hub.system.shutdown()
+        if (action == "Forward"): #Two input functions EX: Forward, Turn
+            drive.straight(movement)
+        elif (action == "Turn"):
+            drive.curve(movement, 1)
+        elif (action == "Track Line"):
+            TrackLine(movement)
         else:
-            status = "Error!"
-            print(action + "not Supported")
+            count = count - 1 #Single input functions EX: Across
+            elif (action == "Across"):
+                across()
+            elif (action == "Done"):
+                print("Program ended, shutting down")
+                wait(100)
+                hub.system.shutdown()
+            else: #Tri input functions EX: Arm
+                count = count + 2
+                movement2 = Commands[count-2]
+                if (action == "Arm"):
+                    turnArm(movement, movement2)
+                else:
+                    status = "Error!"
+                    print(action + " error")
         actionCount = actionCount + 1
         print("Count: " + str(count))
         print("Action Count: " + str(actionCount))
