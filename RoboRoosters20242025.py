@@ -10,7 +10,8 @@ Commands = [
     "Done"
 ]
 status = "Starting"
-
+right = True
+left = False
 def Main():
     Setup()
     Move()
@@ -87,8 +88,20 @@ def TrackLine(Distance):
 def TrackLine1(Distance, Direction = True):
     NewDirection = 0
     NewDistance = 0
-    while (Distance>NewDistance):
-        #Code later Kevin annoying
+    if (Direction):
+        while(NewDistance < Distance):
+            if (ColorSense.color() == "White"):
+                drive.curve(-20, 1, Stop.COAST)
+            else:
+                drive.curve(20, 1, Stop.COAST)
+            NewDistance = NewDistance + 1
+    else:
+        while(NewDistance < Distance):
+            if (ColorSense.color() == "White"):
+                drive.curve(20, 1, Stop.COAST)
+            else:
+                drive.curve(-20, 1, Stop.COAST)
+            NewDistance = NewDistance + 1
 
 def TestAll():
     TestVar = int(input("Testing serial connection, please press one"))
