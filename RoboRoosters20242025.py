@@ -4,14 +4,20 @@ from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
 from math import sin, pi
-
+#Settings, change these vairables
 Commands = [
     "Test",
     "Done"
 ]
+#Don't change these vairables
 status = "Starting"
 right = True
 left = False
+Adaptive = [100, 50, 30, 50]
+Fast = [100, 100, 100, 100]
+Acurite [50, 50, 30, 25]
+MovementMode[4] = Adaptive[4] #Fast, Acurite and Adaptive
+
 def Main():
     Setup()
     Move()
@@ -27,13 +33,18 @@ def Setup():
     print(system.name())
     if (system.reset_reason() == 2):
         print("Rebooting from error")
-    print("Booting")
-    print("Battery voltage: " + str(battery.voltage()) + " mV")
-    print("Battery current: " + str(battery.current()) + " mA")
-    print("BLE version: " + ble.version())
-    print("BLE dBm: " + str(ble.signal_strength()))
+    print("Booting") 
+    print(" ________________________________")   
+    print("|Information       |Value/t/t|")
+    print("|------------------+-------------|")
+    print("|Battery voltage   |" + str(battery.voltage()) + " mV/t/t|")
+    print("|Battery current   |" + str(battery.current()) + " mA/t/t|")
+    print("|BLE version       |" + ble.version() + " /t|")
+    print("|BLE power         |" + str(ble.signal_strength())) + "Dpm/t/t|"
+    print("|Controller Limits |" + str(control.limits())) + "/t|"
+    print("|Controller Pid    |" + str(control.pid()))+ "/t|"
     if charger.connected():
-        if (charger.status() == 1):
+        if (charger.statu.s() == 1):
             print("Charging")
         elif (charger.status() == 2):
             print("Battery full")
@@ -49,6 +60,8 @@ def Setup():
     right_motor = Motor(Port.B)
     drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
     drive.use_gyro(True)
+    drive.settings(MovementMode)
+    drive.reset()
     light.blink(color.red, 0.5)
     speaker.volume(100)
     imu.reset_heading()
@@ -104,8 +117,12 @@ def TrackLine1(Distance, Direction = True):
             NewDistance = NewDistance + 1
 
 def TestAll():
-    TestVar = int(input("Testing serial connection, please press one"))
-    if (TestVar == 1):
+    print("Please Press Y to continue")
+    if keyboard.poll(0):
+        # Read the key and print it.
+        TestVar = stdin.read(1)
+        TestVar = str(TestVar)
+    if (TestVar == "Y"):
         print("Success")
     else:
         print("Error")
