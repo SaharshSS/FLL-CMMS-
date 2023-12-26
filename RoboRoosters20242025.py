@@ -44,7 +44,7 @@ def Setup():
     print("|Controller Limits |" + str(control.limits())) + "/t|"
     print("|Controller Pid    |" + str(control.pid()))+ "/t|"
     if charger.connected():
-        if (charger.statu.s() == 1):
+        if (charger.status() == 1):
             print("Charging")
         elif (charger.status() == 2):
             print("Battery full")
