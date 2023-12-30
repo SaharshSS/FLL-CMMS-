@@ -16,7 +16,7 @@ left = False
 Adaptive = [100, 50, 30, 50]
 Fast = [100, 100, 100, 100]
 Acurite [50, 50, 30, 25]
-MovementMode[4] = Adaptive[4] #Fast, Acurite and Adaptive
+MovementMode[] = Adaptive[] #Fast, Acurite and Adaptive
 
 def Main():
     Setup()
