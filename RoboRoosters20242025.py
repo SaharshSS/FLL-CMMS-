@@ -43,8 +43,9 @@ def Setup():
     print("|BLE power         |" + str(ble.signal_strength())) + "Dpm/t/t|"
     print("|Controller Limits |" + str(control.limits())) + "/t|"
     print("|Controller Pid    |" + str(control.pid()))+ "/t|"
+    print("'--------------------------------'")
     if charger.connected():
-        if (charger.status() == 1):
+        if (charger.statu.s() == 1):
             print("Charging")
         elif (charger.status() == 2):
             print("Battery full")
