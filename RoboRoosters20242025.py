@@ -9,13 +9,16 @@ Commands = [
     "Test",
     "Done"
 ]
+
 #Don't change these vairables
 status = "Starting"
 right = True
 left = False
+
 Adaptive = [100, 50, 30, 50]
 Fast = [100, 100, 100, 100]
 Acurite [50, 50, 30, 25]
+
 MovementMode[] = Adaptive[] #Fast, Acurite and Adaptive
 
 def Main():
@@ -71,6 +74,7 @@ def Setup():
     speaker.beep(700, 200)
 
 def turnArm(Arm1, Arm2, Mode = 2, Speed = 500):
+    print("Turning arm " + str(Arm1) + ", " + str(Arm2)", mode " + str(Mode) + ", Speed " + str(Speed))
     if (Mode == 2):
         multitask(ArmA.run_target(Speed, Arm1), ArmB.run_target(Speed, Arm2))
     elif (Mode == 1):
@@ -81,6 +85,7 @@ def turnArm(Arm1, Arm2, Mode = 2, Speed = 500):
         ArmA.run_target(Speed, Arm1)
 
 def TrackLine(Distance):
+    print("Tracking line to " + str(Distance))
     NewDirection=0
     NewDistance=0
     while (Distance > NewDistance):
@@ -100,6 +105,7 @@ def TrackLine(Distance):
         NewDistance=NewDistance+0.5
 
 def TrackLine1(Distance, Direction = True):
+    print("Tracking line for " + str(Distance))
     NewDirection = 0
     NewDistance = 0
     if (Direction):
@@ -140,6 +146,8 @@ def Move(count = 0):
         count = count + 2
         movement = Commands[count-1]
         action = Commands[count]
+        print("Movement: " + str(movement))
+        print("Action: " + str(action))
         if (action == "Forward"): #Two input functions EX: Forward, Turn
             drive.straight(movement)
         elif (action == "Turn"):
@@ -169,4 +177,5 @@ def across(): #Not sure of distance
     straight(400)
 
 if __name__ == '__main__':
+    print("Running")
     Main()
