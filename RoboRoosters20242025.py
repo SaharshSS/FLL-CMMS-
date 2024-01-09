@@ -23,20 +23,21 @@ Acurite = [50, 50, 30, 25]
 
 MovementMode = Adaptive #Fast, Acurite and Adaptive
 
+hub = PrimeHub()
+
 def Main():
     Setup()
     Move()
-    system.shutdown()
+    hub.system.shutdown()
 
 def Setup():
-    hub = PrimeHub()
     hub.light.animate([Color.RED * (0.5 * sin(i / 15 * pi) + 0.5) for i in range(30)], 40)
     hub.system.set_stop_button(Button.BLUETOOTH)
     status="Loading"
     print(usys.implementation)
     print(usys.version)
-    print(system.name())
-    if (system.reset_reason() == 2):
+    print(hub.system.name())
+    if (hub.system.reset_reason() == 2):
         print("Rebooting from error")
     print("Booting") 
     print(" ________________________________")   
@@ -50,7 +51,7 @@ def Setup():
     print("|Controller Pid    |" + str(control.pid()))+ "/t|"
     print("'--------------------------------'")
     if charger.connected():
-        if (charger.statu.s() == 1):
+        if (charger.status() == 1):
             print("Charging")
         elif (charger.status() == 2):
             print("Battery full")
