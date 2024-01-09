@@ -76,7 +76,7 @@ def Setup():
     speaker.beep(700, 200)
 
 def turnArm(Arm1, Arm2, Mode = 2, Speed = 500):
-    print("Turning arm " + str(Arm1) + ", " + str(Arm2)", mode " + str(Mode) + ", Speed " + str(Speed))
+    print("Turning arm " + str(Arm1) + ", " + str(Arm2) + ", mode " + str(Mode) + ", Speed " + str(Speed))
     if (Mode == 2):
         multitask(ArmA.run_target(Speed, Arm1), ArmB.run_target(Speed, Arm2))
     elif (Mode == 1):
