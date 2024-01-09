@@ -15,11 +15,13 @@ status = "Starting"
 right = True
 left = False
 
+MovementMode = [0, 0, 0, 0]
+
 Adaptive = [100, 50, 30, 50]
 Fast = [100, 100, 100, 100]
 Acurite [50, 50, 30, 25]
 
-MovementMode[] = Adaptive[] #Fast, Acurite and Adaptive
+MovementMode = Adaptive #Fast, Acurite and Adaptive
 
 def Main():
     Setup()
