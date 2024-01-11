@@ -16,7 +16,7 @@ ArmB = Motor(Port.F)
 left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right_motor = Motor(Port.B)
 
-drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
+drive = DriveBase(left_motor, right_motor, wheel_diameter=90, axle_track=100) #Double check wheel_diameter!!
 
 ColorSensor = ColorSensor(Port.C)
 
@@ -44,7 +44,7 @@ def Main():
     hub.system.shutdown()
 
 def Setup():
-    hub.light.animate([Color.RED * (0.5 * sin(i / 15 * pi) + 0.5) for i in range(30)], 40)
+    hub.light.blink(Color.RED, 0.5)
     hub.system.set_stop_button(Button.BLUETOOTH)
     status="Loading"
     print(usys.implementation)
@@ -72,10 +72,10 @@ def Setup():
             print("Error!")
     Dist.lights.on(1, 1, 0, 0)
     ColorSensor.lights.on([100, 0, 0])
+    hub.light.animate([Color.RED * (0.5 * sin(i / 15 * pi) + 0.5) for i in range(30)], 40)
     drive.use_gyro(True)
     drive.settings(MovementMode)
     drive.reset()
-    hub.light.blink(Color.RED, 0.5)
     hub.speaker.volume(100)
     hub.imu.reset_heading()
     hub.speaker.beep()
