@@ -26,13 +26,13 @@ MovementMode = Adaptive #Fast, Acurite and Adaptive
 
 hub = PrimeHub()
 
-drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
-
 ArmA = Motor(Port.D)
 ArmB = Motor(Port.F)
 
 left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right_motor = Motor(Port.B)
+
+drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
 
 ColorSense = ColorSensor(Port.C)
 
