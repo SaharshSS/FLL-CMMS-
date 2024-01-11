@@ -183,7 +183,7 @@ def Move(count = 0):
         print("Action Count: " + str(actionCount))
 
 def across(): #Not sure of distance
-    straight(400)
+    drive.straight(400)
 
 if __name__ == '__main__':
     print("Running")
