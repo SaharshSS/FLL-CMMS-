@@ -4,6 +4,7 @@ from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
 from math import sin, pi
+import usys
 #Settings, change these vairables
 Commands = [
     "Test",
@@ -24,6 +25,11 @@ Acurite = [50, 50, 30, 25]
 MovementMode = Adaptive #Fast, Acurite and Adaptive
 
 hub = PrimeHub()
+
+drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
+
+ArmA = Motor(Port.D)
+ArmB = Motor(Port.F)
 
 def Main():
     Setup()
@@ -59,13 +65,10 @@ def Setup():
             print("Error!")
     Dist = UltrasonicSensor(Port.E)
     lights.on(1, 1, 0, 0)
-    ArmA = Motor(Port.D)
-    ArmB = Motor(Port.F)
     ColorSense = ColorSensor(Port.C)
     ColorSense.lights.on([100, 0, 0])
     left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
     right_motor = Motor(Port.B)
-    drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
     drive.use_gyro(True)
     drive.settings(MovementMode)
     drive.reset()
