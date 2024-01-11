@@ -12,7 +12,6 @@ Commands = [
 ]
 
 #Don't change these vairables
-status = "Starting"
 right = True
 left = False
 
@@ -34,7 +33,7 @@ right_motor = Motor(Port.B)
 
 drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100)
 
-ColorSense = ColorSensor(Port.C)
+ColorSensor = ColorSensor(Port.C)
 
 Dist = UltrasonicSensor(Port.E)
 
@@ -71,7 +70,7 @@ def Setup():
         else:
             print("Error!")
     lights.on(1, 1, 0, 0)
-    ColorSense.lights.on([100, 0, 0])
+    ColorSensor.lights.on([100, 0, 0])
     drive.use_gyro(True)
     drive.settings(MovementMode)
     drive.reset()
@@ -98,17 +97,17 @@ def TrackLine(Distance):
     NewDirection=0
     NewDistance=0
     while (Distance > NewDistance):
-        if (ColorSense.color() == "White"):
+        if (ColorSensor.color() == "White"):
             if (NewDirection == 1):
                 NewDirection = 0
-                while (ColorSense.color() != "White"):
+                while (ColorSensor.color() != "White"):
                     drive.curve(20, 1, Stop.COAST)
         else:
             NewDirection = 1
-            if (ColorSense.color() == "White"):
+            if (ColorSensor.color() == "White"):
                 if (NewDirection == 1):
                     NewDirection = 0
-                    while (ColorSense.color() != "White"):
+                    while (ColorSensor.color() != "White"):
                         drive.curve(-20, 1, Stop.COAST)
         drive.straight(1)
         NewDistance=NewDistance+0.5
@@ -119,14 +118,14 @@ def TrackLine1(Distance, Direction = True):
     NewDistance = 0
     if (Direction):
         while(NewDistance < Distance):
-            if (ColorSense.color() == "White"):
+            if (ColorSensor.color() == "White"):
                 drive.curve(-20, 1, Stop.COAST)
             else:
                 drive.curve(20, 1, Stop.COAST)
             NewDistance = NewDistance + 1
     else:
         while(NewDistance < Distance):
-            if (ColorSense.color() == "White"):
+            if (ColorSensor.color() == "White"):
                 drive.curve(20, 1, Stop.COAST)
             else:
                 drive.curve(-20, 1, Stop.COAST)
@@ -150,6 +149,7 @@ def TestAll():
         print("Error")
 
 def Move(count = 0):
+    status = "Starting"
     actionCount=0
     while (status != "Done"):
         count = count + 2
