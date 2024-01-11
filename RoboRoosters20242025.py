@@ -43,17 +43,17 @@ def Setup():
     print(" ________________________________")   
     print("|Information       |Value/t/t|")
     print("|------------------+-------------|")
-    print("|Battery voltage   |" + str(battery.voltage()) + " mV/t/t|")
-    print("|Battery current   |" + str(battery.current()) + " mA/t/t|")
-    print("|BLE version       |" + ble.version() + " /t|")
-    print("|BLE power         |" + str(ble.signal_strength())) + "Dpm/t/t|"
-    print("|Controller Limits |" + str(control.limits())) + "/t|"
-    print("|Controller Pid    |" + str(control.pid()))+ "/t|"
+    print("|Battery voltage   |" + str(hub.battery.voltage()) + " mV/t/t|")
+    print("|Battery current   |" + str(hub.battery.current()) + " mA/t/t|")
+    print("|BLE version       |" + hub.ble.version() + " /t|")
+    print("|BLE power         |" + str(hub.ble.signal_strength())) + "Dpm/t/t|"
+    print("|Controller Limits |" + str(hub.control.limits())) + "/t|"
+    print("|Controller Pid    |" + str(hub.control.pid()))+ "/t|"
     print("'--------------------------------'")
-    if charger.connected():
-        if (charger.status() == 1):
+    if hub.charger.connected():
+        if (hub.charger.status() == 1):
             print("Charging")
-        elif (charger.status() == 2):
+        elif (hub.charger.status() == 2):
             print("Battery full")
         else:
             print("Error!")
@@ -70,11 +70,11 @@ def Setup():
     drive.settings(MovementMode)
     drive.reset()
     light.blink(color.red, 0.5)
-    speaker.volume(100)
-    imu.reset_heading()
-    speaker.beep()
-    speaker.beep(600)
-    speaker.beep(700, 200)
+    hub.speaker.volume(100)
+    hub.imu.reset_heading()
+    hub.speaker.beep()
+    hub.speaker.beep(600)
+    hub.speaker.beep(700, 200)
 
 def turnArm(Arm1, Arm2, Mode = 2, Speed = 500):
     print("Turning arm " + str(Arm1) + ", " + str(Arm2) + ", mode " + str(Mode) + ", Speed " + str(Speed))
