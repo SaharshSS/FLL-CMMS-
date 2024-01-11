@@ -1,5 +1,5 @@
 from pybricks import version
-from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, Stop
+from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, ColorSensor, Stop
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
@@ -133,9 +133,9 @@ def TrackLine1(Distance, Direction = True):
 
 def TestAll():
     print("Please Press Y to continue")
-    if keyboard.poll(0):
+    if hub.keyboard.poll(0):
         # Read the key and print it.
-        TestVar = stdin.read(1)
+        TestVar = hub.stdin.read(1)
         TestVar = str(TestVar)
     if (TestVar == "Y"):
         print("Success")
