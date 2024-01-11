@@ -5,24 +5,8 @@ from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
 from math import sin, pi
 import usys
-#Settings, change these vairables
-Commands = [
-    "Test",
-    "Done"
-]
 
-#Don't change these vairables
-right = True
-left = False
-
-MovementMode = [0, 0, 0, 0]
-
-Adaptive = [100, 50, 30, 50]
-Fast = [100, 100, 100, 100]
-Acurite = [50, 50, 30, 25]
-Test = [10, 10, 10, 10]
-
-MovementMode = Adaptive #Fast, Acurite and Adaptive
+#Don't change these because don't
 
 hub = PrimeHub()
 
@@ -37,6 +21,22 @@ drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100
 ColorSensor = ColorSensor(Port.C)
 
 Dist = UltrasonicSensor(Port.E)
+
+MovementMode = [0, 0, 0, 0]
+
+adaptive = [100, 50, 30, 50]
+fast = [100, 100, 100, 100]
+acurite = [50, 50, 30, 25]
+test = [10, 10, 10, 10]
+
+#Settings, change these vairables
+
+Commands = [
+    "Test",
+    "Done"
+]
+
+MovementMode = adaptive #Fast, acurite, test and adaptive
 
 def Main():
     Setup()
@@ -56,10 +56,10 @@ def Setup():
     print(" ________________________________")   
     print("|Information       |Value/t/t|")
     print("|------------------+-------------|")
-    print("|Battery voltage   |" + str(hub.battery.voltage()) + " mV/t/t|")
-    print("|Battery current   |" + str(hub.battery.current()) + " mA/t/t|")
+    print("|Battery voltage   |" + str(hub.battery.voltage()) + " mV/t|")
+    print("|Battery current   |" + str(hub.battery.current()) + " mA/t|")
     print("|BLE version       |" + hub.ble.version() + " /t|")
-    print("|BLE power         |" + str(hub.ble.signal_strength())) + "Dpm/t/t|"
+    print("|BLE power         |" + str(hub.ble.signal_strength())) + "Dpm/t|"
     print("|Controller Limits |" + str(hub.control.limits())) + "/t|"
     print("|Controller Pid    |" + str(hub.control.pid()))+ "/t|"
     print("'--------------------------------'")
