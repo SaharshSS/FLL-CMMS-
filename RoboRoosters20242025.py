@@ -189,6 +189,3 @@ def across(): #Not sure of distance
 if __name__ == '__main__':
     print("Running")
     Main()
-
-def test_example():
-    assert 1 == 1 #Because I do not want to deal with pytest
