@@ -31,6 +31,13 @@ drive = DriveBase(left_motor, right_motor, wheel_diameter=89.231, axle_track=100
 ArmA = Motor(Port.D)
 ArmB = Motor(Port.F)
 
+left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
+right_motor = Motor(Port.B)
+
+ColorSense = ColorSensor(Port.C)
+
+Dist = UltrasonicSensor(Port.E)
+
 def Main():
     Setup()
     Move()
@@ -63,12 +70,8 @@ def Setup():
             print("Battery full")
         else:
             print("Error!")
-    Dist = UltrasonicSensor(Port.E)
     lights.on(1, 1, 0, 0)
-    ColorSense = ColorSensor(Port.C)
     ColorSense.lights.on([100, 0, 0])
-    left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
-    right_motor = Motor(Port.B)
     drive.use_gyro(True)
     drive.settings(MovementMode)
     drive.reset()
