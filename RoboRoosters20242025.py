@@ -1,5 +1,5 @@
 from pybricks import version
-from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor
+from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, Stop
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
