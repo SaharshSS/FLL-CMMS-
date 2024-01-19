@@ -153,14 +153,16 @@ def TestAll():
         print("Error")
 
 def Move(count = 0):
-    status = "Starting"
-    actionCount=0
+    status = "Working"
+    actionCount= 0
+    count = 0
     while (status != "Done"):
         count = count + 2
         movement = Commands[count-1]
         action = Commands[count]
         print("Movement: " + str(movement))
         print("Action: " + str(action))
+        hub.display.number(simpleCount);
         if (action == "Forward"): #Two input functions EX: Forward, Turn
             drive.straight(movement)
         elif (action == "Turn"):
@@ -185,7 +187,15 @@ def Move(count = 0):
         actionCount = actionCount + 1
         print("Count: " + str(count))
         print("Action Count: " + str(actionCount))
-
+        pressed = []
+        while not any(pressed):
+            pressed = hub.button.pressed()
+        if Button.LEFT in pressed:
+            hub.display.icon(Icon.ARROW_LEFT)
+            count = count - 1
+        else if Button.RIGHT ib pressed:
+            hub.display.icon(Icon.ARROW_RIGHT)
+        delay(1000);
 def across(): #Not sure of distance
     drive.straight(400)
     drive.curve(15, 45)
