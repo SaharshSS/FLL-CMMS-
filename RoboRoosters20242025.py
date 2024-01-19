@@ -1,4 +1,5 @@
 from pybricks import version
+from micropython import const, opt_level, mem_info, qstr_info, stack_use
 from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, ColorSensor, Stop
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
@@ -50,6 +51,8 @@ def Setup():
     print(usys.implementation)
     print(usys.version)
     print(hub.system.name())
+    mem_info(True)
+    qstr_info(True)
     if (hub.system.reset_reason() == 2):
         print("Rebooting from error")
     print("Booting") 
@@ -178,13 +181,14 @@ def Move(count = 0):
                     turnArm(movement, movement2)
                 else:
                     status = "Error!"
-                    print(action + " error")
+                    print(action + " error. Not supported")
         actionCount = actionCount + 1
         print("Count: " + str(count))
         print("Action Count: " + str(actionCount))
 
 def across(): #Not sure of distance
     drive.straight(400)
+    drive.curve(15, 45)
 
 if __name__ == '__main__':
     print("Running")
