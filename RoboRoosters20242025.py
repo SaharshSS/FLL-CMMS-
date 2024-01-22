@@ -190,10 +190,10 @@ def Move(count = 0):
         pressed = []
         while not any(pressed):
             pressed = hub.button.pressed()
-        if Button.LEFT in pressed:
+        if (Button.LEFT in pressed):
             hub.display.icon(Icon.ARROW_LEFT)
             count = count - 1
-        else if Button.RIGHT is pressed:
+        else if (Button.RIGHT in pressed):
             hub.display.icon(Icon.ARROW_RIGHT)
         delay(1000);
 def across(): #Not sure of distance
