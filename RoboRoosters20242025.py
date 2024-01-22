@@ -162,7 +162,7 @@ def Move(count = 0):
         action = Commands[count]
         print("Movement: " + str(movement))
         print("Action: " + str(action))
-        hub.display.number(simpleCount);
+        hub.display.number(actionCount);
         if (action == "Forward"): #Two input functions EX: Forward, Turn
             drive.straight(movement)
         elif (action == "Turn"):
