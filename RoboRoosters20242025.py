@@ -50,6 +50,7 @@ def Setup():
     status="Loading"
     print(usys.implementation)
     print(usys.version)
+    print(version)
     print(hub.system.name())
     mem_info(True)
     qstr_info(True)
