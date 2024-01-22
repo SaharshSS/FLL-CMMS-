@@ -1,6 +1,6 @@
 from pybricks import version
 from micropython import const, opt_level, mem_info, qstr_info, stack_use
-from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, ColorSensor, Stop
+from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, ColorSensor, Stop, Side, Icon
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 from pybricks.tools import multitask, run_task, wait
