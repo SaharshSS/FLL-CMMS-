@@ -1,3 +1,9 @@
+from pybricks import version
+from micropython import const, opt_level, mem_info, qstr_info, stack_use
+import usys
+from pybricks.hubs import PrimeHub
+
+hub = PrimeHub()
 
 print(usys.implementation)
 print(usys.version)
