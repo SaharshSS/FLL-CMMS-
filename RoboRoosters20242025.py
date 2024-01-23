@@ -196,7 +196,8 @@ def Move(count = 0):
             count = count - 1
         elif (Button.RIGHT in pressed):
             hub.display.icon(Icon.ARROW_RIGHT)
-        wait(1000);
+        wait(1000)
+        hub.speaker.beep()
 def across(): #Not sure of distance
     drive.straight(400)
     drive.curve(15, 45)
