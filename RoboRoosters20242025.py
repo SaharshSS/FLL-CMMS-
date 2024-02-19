@@ -24,20 +24,23 @@ ColorSensor = ColorSensor(Port.C)
 Dist = UltrasonicSensor(Port.E)
 
 MovementMode = [0, 0, 0, 0]
+# Meaning of each variable:
+# MovementMode = [straight_speed, straight_acceleration, turn_rate, turn_acceleration]
 
+# Possible Movement Modes
 adaptive = [100, 50, 30, 50]
 fast = [100, 100, 100, 100]
-acurite = [50, 50, 30, 25]
+accurate = [50, 50, 30, 25]
 test = [10, 10, 10, 10]
 
-#Settings, change these vairables
+#Settings, change these variables
 
 Commands = [
     "Test",
     "Done"
 ]
 
-MovementMode = adaptive #Fast, acurite, test and adaptive
+MovementMode = adaptive # fast, accurate, test and adaptive
 
 def Main():
     Setup()
