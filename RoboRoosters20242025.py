@@ -208,3 +208,72 @@ def across(): #Not sure of distance
 if __name__ == '__main__':
     print("Running")
     Main()
+#---------------------------------------------------------------------------------------------------------------------------------
+#Selector Algorithm for Multiple Runs
+#This is our menu as on Pybricks there is no option for having 2 codes on 1 hub at the same time
+menu_options = ("1", "2", "3", "4", "5", "6", "7", "8", "9", ) #forward, left, right, back, exit
+menu_index = 0
+num_options = len(menu_options)
+hub = PrimeHub()
+
+# Clear terminal
+print("\x1b[H\x1b[2J", end="")
+
+def do_menu(hub):
+    # Normally, the center button stops the program. But we want to use the
+    # center button for our menu. So we can disable the stop button.
+    global menu_index
+    hub.system.set_stop_button(Button.BLUETOOTH)
+    while True:
+        hub.display.char(menu_options[menu_index])
+        # Wait for any button.
+        pressed = ()
+        while not pressed:
+            pressed = hub.buttons.pressed()
+            wait(10)
+        # and then wait for the button to be released.
+        while hub.buttons.pressed():
+            wait(10)
+  
+        # Now check which button was pressed.
+        if Button.CENTER in pressed:
+            # Center button, this is the selection button, so we can exit the
+            # selection loop
+            break
+        elif Button.LEFT in pressed:
+            # Left button, so decrement menu menu_index.
+            menu_index -= 1
+            if (menu_index < 0): #roll over!
+                menu_index = num_options - 1
+        elif Button.RIGHT in pressed:
+            # Right button, so increment menu menu_index.
+            menu_index += 1
+            if (menu_index >= num_options):
+                menu_index = 0
+    
+    # Now we want to use the Center button as the stop button again.
+    hub.system.set_stop_button(Button.CENTER)
+    selected = menu_options[menu_index]
+    return selected
+
+selected = ""
+while True:
+    selected = do_menu(hub)
+    if selected == "1"
+        #Run 1
+    elif selected == "2"
+        #Run 2
+    elif selected == "3"
+        #Run 3
+    elif selected == "4"
+        #Run 4
+    elif selected == "5"
+        #Run 5
+    elif selected == "6"
+        #Run 6
+    elif selected == "7"
+        #Run 7
+    elif selected == "8"
+        #Run 8
+    elif selected == "9"
+        #Run 9
