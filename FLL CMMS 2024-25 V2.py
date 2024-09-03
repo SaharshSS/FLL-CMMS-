@@ -2,6 +2,7 @@ from pybricks.hubs import PrimeHub
 from pybricks.robotics import DriveBase
 from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, ColorSensor, Stop, Side, Icon
 from pybricks.tools import multitask, run_task, wait
+from pybricks import version
 
 hub = PrimeHub()
 
@@ -18,12 +19,11 @@ color = ColorSensor(Port.C)
 distance = UltrasonicSensor(Port.E)
 
 def setup():
-    drive.reset()
+    multitask(drive.reset(), print("Version " + str(version)))
     drive.use_gyro(True)
     drive.settings(100, 50, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
     hub.imu.reset_heading()
-    hub.speaker.volume(50)
-    hub.speaker.beep(500)
+    multitask(hub.speaker.volume(50), turnArm(90, 90))
 
 def turnArm(angle2, angle2, mode = 0, speed = 500):
     if not mode:
@@ -64,7 +64,7 @@ def TrackLine1(Distance, Direction=True):
         NewDistance += 1
 
 def main():
-    setup()
+    multitask(setup(), hub.speaker.beep(500))
     global menu, inputCount
     while menu < len(tasks):
         hub.display.char(menu)
@@ -79,7 +79,6 @@ def main():
                 menu += 1
         try:
             tasks[menu]()
-        except TypeError:
-            input_value = input("Enter input: ")
-            tasks[menu](input_value)
+        except TypeError
+            tasks[menu](inputs[inputCount])
             inputCount += 1
