@@ -85,7 +85,7 @@ def TrackLine1(Distance, Direction = True):
 def main():
     setup()
     global menu
-    while menu > len(tasks):
+    while menu < len(tasks):
         hub.display.char(int(menu))
         pressed = ()
         while not pressed:
@@ -98,8 +98,8 @@ def main():
         elif Button.RIGHT in pressed or Button.UP in pressed:
             if menu < len(tasks):
                 menu += 1
-    try:
-        tasks[menu]()
-    except TypeError:
-        tasks[menu](input[inputCount])
-        inputCount += 1
+        try:
+            tasks[menu]()
+        except TypeError:
+            tasks[menu](input[inputCount])
+            inputCount += 1
