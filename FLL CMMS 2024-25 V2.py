@@ -42,6 +42,45 @@ tasks = [across()]
 
 menu = 0
 
+def TrackLine(Distance):
+    print("Tracking line to " + str(Distance))
+    NewDirection=0
+    NewDistance=0
+    while (Distance > NewDistance):
+        if (ColorSensor.color() == "White"):
+            if (NewDirection == 1):
+                NewDirection = 0
+                while (ColorSensor.color() != "White"):
+                    drive.curve(20, 1, Stop.COAST)
+        else:
+            NewDirection = 1
+            if (ColorSensor.color() == "White"):
+                if (NewDirection == 1):
+                    NewDirection = 0
+                    while (ColorSensor.color() != "White"):
+                        drive.curve(-20, 1, Stop.COAST)
+        drive.straight(1)
+        NewDistance=NewDistance+0.5
+
+def TrackLine1(Distance, Direction = True):
+    print("Tracking line for " + str(Distance))
+    NewDirection = 0
+    NewDistance = 0
+    if (Direction):
+        while(NewDistance < Distance):
+            if (ColorSensor.color() == "White"):
+                drive.curve(-20, 1, Stop.COAST)
+            else:
+                drive.curve(20, 1, Stop.COAST)
+            NewDistance = NewDistance + 1
+    else:
+        while(NewDistance < Distance):
+            if (ColorSensor.color() == "White"):
+                drive.curve(20, 1, Stop.COAST)
+            else:
+                drive.curve(-20, 1, Stop.COAST)
+            NewDistance = NewDistance + 1
+
 def main():
     setup()
     global menu
