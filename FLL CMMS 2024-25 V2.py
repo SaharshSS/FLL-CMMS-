@@ -19,7 +19,7 @@ distance = UltrasonicSensor(Port.E)
 
 def setup():
     drive.reset()
-    #drive.use_gyro(True)
+    drive.use_gyro(True)
     drive.settings(100, 50, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
     hub.imu.reset_heading()
     hub.speaker.volume(50)
