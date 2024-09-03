@@ -19,11 +19,11 @@ distance = UltrasonicSensor(Port.E)
 
 def setup():
     drive.reset()
+    #drive.use_gyro(True)
     drive.settings(100, 50, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
     hub.imu.reset_heading()
     hub.speaker.volume(50)
     hub.speaker.beep(500)
-    drive.use_gyro(True)
 
 def turnArm(angle2, angle2, mode = 0, speed = 500):
     if not mode:
