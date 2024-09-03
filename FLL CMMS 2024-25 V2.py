@@ -17,13 +17,7 @@ color = ColorSensor(Port.C)
 
 distance = UltrasonicSensor(Port.E)
 
-def Main():
-    Setup()
-    Move()
-    hub.system.shutdown()
-
 def setup():
-    print("Version: " + str(version))
     drive.reset()
     drive.use_gyro(True)
     drive.settings(100, 50, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
@@ -49,6 +43,8 @@ tasks = [across()]
 menu = 0
 
 def main():
+    setup()
+    global menu
     while menu > len(tasks):
         hub.display.char(int(menu))
         pressed = ()
@@ -59,7 +55,7 @@ def main():
         if Button.LEFT in pressed or Button.DOWN in pressed:
             if menu > 0:
                 menu -= 1
-        elif BUtton.RIGHT in pressed or Button.UP in pressed:
+        elif Button.RIGHT in pressed or Button.UP in pressed:
             if menu < len(tasks):
                 menu += 1
     tasks[menu]()
