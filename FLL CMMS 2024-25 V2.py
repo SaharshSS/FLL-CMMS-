@@ -39,7 +39,8 @@ def across():
     drive.straight(200)
 
 tasks = [across()]
-
+inputs = [100]
+inputCount =  0
 menu = 0
 
 def TrackLine(Distance):
@@ -97,4 +98,8 @@ def main():
         elif Button.RIGHT in pressed or Button.UP in pressed:
             if menu < len(tasks):
                 menu += 1
-    tasks[menu]()
+    try:
+        tasks[menu]()
+    except TypeError:
+        tasks[menu](input[inputCount])
+        inputCount += 1
