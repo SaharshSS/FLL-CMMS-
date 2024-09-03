@@ -32,9 +32,9 @@ def setup():
     hub.speaker.beep(500)
 
 def turnArm(angle2, angle2, mode = 0, speed = 500):
-    if (!mode):
+    if not mode:
         multitask(armBase.run_target(speed, angle2), armMid.run_target(speed, angle2))
-    elif (mode == 1):
+    elif mode == 1:
         armBase.run_target(speed, angle2)
         armMid.run_target(speed, angle2)
     else:
