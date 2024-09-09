@@ -8,12 +8,11 @@ hub = PrimeHub()
 print(usys.implementation)
 print(usys.version)
 print(version)
-print(hub.system.name())
+print("Name: " + str(hub.system.name()))
 mem_info(True)
 qstr_info(True)
 if (hub.system.reset_reason() == 2):
     print("Rebooting from error")
-print("Booting") 
 print(" ________________________________")   
 print("|Information       |Value/t/t|")
 print("|------------------+-------------|")
@@ -27,7 +26,5 @@ print("'--------------------------------'")
 if hub.charger.connected():
   if (hub.charger.status() == 1):
     print("Charging")
-  elif (hub.charger.status() == 2):
-    print("Battery full")
   else:
-    print("Error!")
+    print("Battery full")
