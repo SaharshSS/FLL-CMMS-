@@ -43,22 +43,30 @@ inputs = [100]
 inputCount =  0
 menu = 0
 
+def constrain(value, minimum, maximum):
+  if value < minimum:
+    return minimum
+  elif value > maximum:
+    return maximum
+  else:
+    return value
+
 def TrackLine(Distance):
-    NewDirection = 0
+    NewDirection = 1
     NewDistance = 0
     while NewDistance < Distance:
         if ColorSensor.color() == "White":
-            NewDirection = 1 if NewDirection == 0 else 0
+            NewDirection = NewDirection * -1
             while ColorSensor.color() != "White":
                 drive.curve(20 * NewDirection, 1, Stop.COAST)
-            drive.straight(1)
+            drive.straight(1, Stop.COAST)
             NewDistance += 0.5
 
 def TrackLine1(Distance, Direction=True):
     curve_direction = 20 if Direction else -20
     while NewDistance < Distance:
         if ColorSensor.color() == "White":
-            drive.curve(-curve_direction, 1, Stop.COAST)
+            drive.straight(1, Stop.COAST)
         else:
             drive.curve(curve_direction, 1, Stop.COAST)
         NewDistance += 1
@@ -72,11 +80,10 @@ def main():
         if Button.CENTER in pressed:
             break
         if Button.LEFT in pressed or Button.DOWN in pressed:
-            if menu > 0:
-                menu -= 1
+            menu -= 1
         else:
-            if menu < len(tasks) - 1:
-                menu += 1
+            menu += 1
+        menu = constrain(menu, 0, len(tasks))
         try:
             tasks[menu]()
         except TypeError
