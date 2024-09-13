@@ -1,9 +1,8 @@
 [tool.poetry]
-name = "pybricksdev"
+name = "cmms"
 version = "1.0.0-alpha.50"
 description = "Pybricks developer tools"
-authors = ["The Pybricks Authors <dev@pybricks.com>"]
-maintainers = ["Laurens Valk <laurens@pybricks.com>", "David Lechner <david@pybricks.com>" ]
+authors = ["CMMS robotics club studdents"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://pybricks.com"
