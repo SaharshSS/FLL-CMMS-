@@ -21,7 +21,7 @@ distance = UltrasonicSensor(Port.E)
 def setup():
     multitask(drive.reset(), print("Version " + str(version)))
     drive.use_gyro(True)
-    drive.settings(100, 60, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
+    drive.settings(100, 50, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
     hub.imu.reset_heading()
     multitask(hub.speaker.volume(50), turnArm(90, 90))
 
