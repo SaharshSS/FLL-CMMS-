@@ -44,11 +44,10 @@ inputCount =  0
 menu = 0
 
 def constrain(value, minimum, maximum):
-  if value < minimum:
-    return minimum
-  elif value > maximum:
-    return maximum
-  else:
+    if value < minimum:
+        return minimum
+    elif value > maximum:
+        return maximum
     return value
 
 def TrackLine(Distance):
@@ -61,6 +60,7 @@ def TrackLine(Distance):
                 drive.curve(20 * NewDirection, 1, Stop.COAST)
             drive.straight(1, Stop.COAST)
             NewDistance += 0.5
+    drive.straight(0, Stop.COAST)
 
 def TrackLine1(Distance, Direction=True):
     curve_direction = 20 if Direction else -20
@@ -85,7 +85,8 @@ def main():
             menu += 1
         menu = constrain(menu, 0, len(tasks))
         try:
-            tasks[menu]()
+            multitask(tasks[menu](), print("Running " + tasks[menu].__name__) 
         except TypeError
+            multitask(tasks[menu](), print("Running " + tasks[menu].__name__ + " with input " + str(inputs[inputCount]))
             tasks[menu](inputs[inputCount])
             inputCount += 1
