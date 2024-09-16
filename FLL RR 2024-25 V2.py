@@ -38,8 +38,8 @@ def turnArm(angle2, angle2, mode = 0, speed = 500):
 def across():
     drive.straight(200)
 
-tasks = [across()]
-inputs = [100]
+tasks = [print(), across()]
+inputs = ["Hello world!"]
 inputCount =  0
 menuindex = 0
 
