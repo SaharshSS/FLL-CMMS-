@@ -87,8 +87,8 @@ def main():
             menu += 1
         menu = constrain(menu, 0, len(tasks))
         try:
-            multitask(tasks[menu](), print("Running " + tasks[menu].__name__) 
+            multitask(tasks[menu](), print("Running " + tasks[menu].__name__))
         except TypeError
-            multitask(tasks[menu](), print("Running " + tasks[menu].__name__ + " with input " + str(inputs[inputCount]))
+            multitask(tasks[menu](), print("Running " + tasks[menu].__name__ + " with input " + str(inputs[inputCount])))
             tasks[menu](inputs[inputCount])
             inputCount += 1
