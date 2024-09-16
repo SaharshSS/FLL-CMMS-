@@ -41,7 +41,7 @@ def across():
 tasks = [across()]
 inputs = [100]
 inputCount =  0
-menu = 0
+menuindex = 0
 
 def constrain(value, minimum, maximum):
     if value < minimum:
@@ -75,20 +75,20 @@ def TrackLine1(Distance, Direction=True):
 
 def main():
     multitask(setup(), hub.speaker.beep(500))
-    global menu, inputCount
-    while menu < len(tasks):
-        hub.display.char(menu)
+    global menuindex, inputCount
+    while menuindex < len(tasks):
+        hub.display.char(menuindex)
         pressed = hub.buttons.get_pressed()
         if Button.CENTER in pressed:
             break
         if Button.LEFT in pressed or Button.DOWN in pressed:
-            menu -= 1
+            menuindex -= 1
         else:
-            menu += 1
-        menu = constrain(menu, 0, len(tasks))
+            menuindex += 1
+        menuindex = constrain(menuindex, 0, len(tasks))
         try:
-            multitask(tasks[menu](), print("Running " + tasks[menu].__name__))
+            multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__))
         except TypeError
-            multitask(tasks[menu](), print("Running " + tasks[menu].__name__ + " with input " + str(inputs[inputCount])))
-            tasks[menu](inputs[inputCount])
+            multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__ + " with input " + str(inputs[inputCount])))
+            tasks[menuindex](inputs[inputCount])
             inputCount += 1
