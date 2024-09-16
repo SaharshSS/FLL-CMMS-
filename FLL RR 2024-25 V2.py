@@ -50,17 +50,19 @@ def constrain(value, minimum, maximum):
         return maximum
     return value
 
-def TrackLine(Distance):
-    NewDirection = 1
-    NewDistance = 0
-    while NewDistance < Distance:
-        if ColorSensor.color() == "White":
-            NewDirection = NewDirection * -1
-            while ColorSensor.color() != "White":
-                drive.curve(20 * NewDirection, 1, Stop.COAST)
-            drive.straight(1, Stop.COAST)
-            NewDistance += 0.5
-    drive.straight(0, Stop.COAST)
+def TrackLine(Distance, NewDistance=0, NewDirection=1):
+    if NewDistance >= Distance:
+        drive.straight(0, Stop.COAST)
+        return
+
+    if ColorSensor.color() == "White":
+        NewDirection = NewDirection * -1
+        while ColorSensor.color() != "White":
+            drive.curve(20 * NewDirection, 1, Stop.COAST)
+        drive.straight(1, Stop.COAST)
+        NewDistance += 0.5
+
+    TrackLine(Distance, NewDistance, NewDirection)
 
 def TrackLine1(Distance, Direction=True):
     curve_direction = 20 if Direction else -20
