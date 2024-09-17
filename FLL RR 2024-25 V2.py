@@ -79,13 +79,14 @@ def main():
     while menuindex < len(tasks):
         hub.display.char(menuindex)
         pressed = hub.buttons.get_pressed()
-        if Button.CENTER in pressed:
-            break
-        if Button.LEFT in pressed or Button.DOWN in pressed:
-            menuindex -= 1
-        else:
-            menuindex += 1
-        menuindex = constrain(menuindex, 0, len(tasks))
+        while True:
+            if Button.CENTER in pressed:
+                break
+            if Button.LEFT in pressed or Button.DOWN in pressed:
+                menuindex -= 1
+            else:
+                menuindex += 1
+            menuindex = constrain(menuindex, 0, len(tasks))
         try:
             multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__))
         except TypeError
