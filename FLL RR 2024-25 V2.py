@@ -25,14 +25,14 @@ def setup():
     hub.imu.reset_heading()
     multitask(hub.speaker.volume(50), turnArm(90, 90))
 
-def turnArm(angle2, angle2, mode = 0, speed = 500):
+def turnArm(angle1, angle2, mode = 0, speed = 500):
     if not mode:
         multitask(armBase.run_target(speed, angle2), armMid.run_target(speed, angle2))
     elif mode == 1:
-        armBase.run_target(speed, angle2)
+        armBase.run_target(speed, angle1)
         armMid.run_target(speed, angle2)
     else:
-        armMid.run_target(speed, angle2)
+        armMid.run_target(speed, angle1)
         armBase.run_target(speed, angle2)
 
 def across():
