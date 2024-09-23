@@ -78,7 +78,6 @@ def main():
     global menuindex, inputCount
     while menuindex < len(tasks):
         while True:
-            hub.display.char(menuindex)
             pressed = hub.buttons.get_pressed()
             if Button.CENTER in pressed:
                 break
@@ -90,6 +89,7 @@ def main():
             delay(1)
             hub.display.off()
             delay(1)
+            hub.display.char(menuindex)
         try:
             multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__))
         except TypeError
