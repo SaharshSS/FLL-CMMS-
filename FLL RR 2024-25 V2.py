@@ -77,9 +77,9 @@ def main():
     multitask(setup(), hub.speaker.beep(500))
     global menuindex, inputCount
     while menuindex < len(tasks):
-        hub.display.char(menuindex)
-        pressed = hub.buttons.get_pressed()
         while True:
+            hub.display.char(menuindex)
+            pressed = hub.buttons.get_pressed()
             if Button.CENTER in pressed:
                 break
             if Button.LEFT in pressed or Button.DOWN in pressed:
@@ -87,6 +87,9 @@ def main():
             else:
                 menuindex += 1
             menuindex = constrain(menuindex, 0, len(tasks))
+            delay(1)
+            hub.display.off()
+            delay(1)
         try:
             multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__))
         except TypeError
