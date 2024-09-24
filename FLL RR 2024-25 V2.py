@@ -1,6 +1,7 @@
 from pybricks.hubs import PrimeHub
 from pybricks.robotics import DriveBase
-from pybricks.parameters import Color, Button, Port, Direction, Motor, UltrasonicSensor, ColorSensor, Stop, Side, Icon
+from pybricks.parameters import Color, Button, Port, Direction, Stop, Side, Icon
+from pybricks.pupdevices import Motor, UltrasonicSensor, ColorSensor
 from pybricks.tools import multitask, run_task, wait
 from pybricks import version
 
@@ -19,27 +20,39 @@ color = ColorSensor(Port.C)
 distance = UltrasonicSensor(Port.E)
 
 def setup():
-    multitask(drive.reset(), print("Version " + str(version)))
+    hub.display.icon(Icon.PAUSE)
+    drive.reset()
+    print("Version " + str(version))
     drive.use_gyro(True)
-    drive.settings(100, 55, 30, 50) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
-    hub.imu.reset_heading()
-    multitask(hub.speaker.volume(50), turnArm(90, 90))
+    drive.settings(1000, 2000, 750, 250) #[straight_speed, straight_acceleration, turn_rate, turn_acceleration]
+    hub.imu.reset_heading(0)
+    while not hub.imu.ready():
+        wait(20)
+    turnArm(45, 45)
 
 def turnArm(angle1, angle2, mode = 0, speed = 500):
     if not mode:
-        multitask(armBase.run_target(speed, angle2), armMid.run_target(speed, angle2))
+        armBase.run_target(speed, angle2, wait = False)
+        armMid.run_target(speed, angle2)
     elif mode == 1:
         armBase.run_target(speed, angle1)
         armMid.run_target(speed, angle2)
-    else:
+    elif mode == 2:
         armMid.run_target(speed, angle1)
         armBase.run_target(speed, angle2)
-
+    else:
+        armMid.run_target(speed, angle1, wait = False)
+        armBase.run_target(speed, angle2, wait = False)
+        
 def across():
-    drive.straight(200)
+    drive.straight(1000)
 
-tasks = [print(), across()]
-inputs = ["Hello world!"]
+def resetArm():
+    turnArm(90, 90, 1)
+    
+
+tasks = [across, resetArm]
+inputs = []
 inputCount =  0
 menuindex = 0
 
@@ -74,25 +87,40 @@ def TrackLine1(Distance, Direction=True):
         NewDistance += 1
 
 def main():
-    multitask(setup(), hub.speaker.beep(500))
+    setup()
+    hub.speaker.beep(500)
     global menuindex, inputCount
-    while menuindex < len(tasks):
+    while True:
+        hub.system.set_stop_button(Button.BLUETOOTH)
+        pressed = []
+        dispOn = False
         while True:
-            pressed = hub.buttons.get_pressed()
+            pressed = hub.buttons.pressed()
             if Button.CENTER in pressed:
                 break
-            if Button.LEFT in pressed or Button.DOWN in pressed:
+            if Button.LEFT in pressed:
                 menuindex -= 1
-            else:
+                hub.speaker.beep()
+            elif Button.RIGHT in pressed:
+                hub.speaker.beep()
                 menuindex += 1
-            menuindex = constrain(menuindex, 0, len(tasks))
-            delay(1)
-            hub.display.off()
-            delay(1)
-            hub.display.char(menuindex)
+            menuindex = constrain(menuindex, 1, len(tasks))
+            if dispOn:
+                hub.display.off()
+                dispOn = False
+            else: 
+                hub.display.char(str(menuindex))
+                dispOn = True
+            wait(250)
         try:
-            multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__))
-        except TypeError
-            multitask(tasks[menuindex](), print("Running " + tasks[menuindex].__name__ + " with input " + str(inputs[inputCount])))
-            tasks[menuindex](inputs[inputCount])
-            inputCount += 1
+            print(menuindex)
+            hub.display.char(str(menuindex))
+            print(tasks[menuindex-1])
+            hub.speaker.beep()
+            tasks[menuindex-1]()
+        except TypeError:
+            print("TypeError, not enough inputs")
+        except IndexError:
+            print("IndexError, glitch in logic")
+main()
+print("Program completed sucsessfully")
