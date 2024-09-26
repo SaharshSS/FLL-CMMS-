@@ -20,6 +20,7 @@ color = ColorSensor(Port.C)
 distance = UltrasonicSensor(Port.E)
 
 def setup():
+    print("Hello world!")
     hub.display.icon(Icon.PAUSE)
     drive.reset()
     print("Version " + str(version))
