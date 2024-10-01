@@ -1,3 +1,3 @@
 # FLL (CMMS)
 FLL Repository for CMMS
-!./RoboRoosters/Robot Animation
+![](https://github.com/SaharshSS/FLL-CMMS-/blob/main/RoboRoosters/Robot%20Animation.gif)
