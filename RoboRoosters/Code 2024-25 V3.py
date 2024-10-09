@@ -2,7 +2,7 @@ from pybricks.hubs import PrimeHub
 from pybricks.robotics import DriveBase
 from pybricks.parameters import Color, Button, Port, Direction, Stop, Side, Icon
 from pybricks.pupdevices import Motor, UltrasonicSensor, ColorSensor
-from pybricks.tools import multitask, run_task, wait
+from pybricks.tools import run_task, wait
 from pybricks import version
 
 hub = PrimeHub()
@@ -35,6 +35,8 @@ def turnArm(angle1, angle2, mode = 0, speed = 500):
     if not mode:
         armBase.run_target(speed, angle2, wait = False)
         armMid.run_target(speed, angle2)
+        while not armBase.done():
+            wait(50)
     elif mode == 1:
         armBase.run_target(speed, angle1)
         armMid.run_target(speed, angle2)
@@ -63,7 +65,7 @@ menuindex = 0
 def constrain(value, minimum, maximum):
     if value < minimum:
         return minimum
-    elif value > maximum:
+    if value > maximum:
         return maximum
     return value
 
@@ -112,10 +114,10 @@ def main():
             if dispOn:
                 hub.display.off()
                 dispOn = False
-            else: 
+            else:
                 hub.display.char(str(menuindex))
                 dispOn = True
-            wait(250)
+            wait(100)
         try:
             print(menuindex)
             hub.display.char(str(menuindex))
@@ -123,8 +125,5 @@ def main():
             hub.speaker.beep()
             tasks[menuindex-1]()
         except TypeError:
-            print("TypeError, not enough inputs")
-        except IndexError:
-            print("IndexError, glitch in logic")
+            print("Put function in another function, eg: def runfunc: run(x, y)")
 main()
-print("Program completed sucsessfully")
