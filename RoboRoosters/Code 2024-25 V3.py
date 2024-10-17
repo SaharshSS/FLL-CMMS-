@@ -8,7 +8,7 @@ from pybricks import version
 hub = PrimeHub()
 
 armBase = Motor(Port.D)
-armMid = Motor(Port.F)
+armMid = Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
@@ -51,13 +51,33 @@ def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(45, -45, 1, 100)
+    turnArm(45, 45, 1, 100)
     turnArm(0, 0, 2, 100)
     
 def circle():
     drive.curve(300, 360)
 
-tasks = [across, resetArm, circle]
+def task9():
+    turnArm(-90, 0)
+    drive.turn(-45)
+    drive.straight(288*2) #Im lazy
+    drive.straight(288*-2) #lazy again
+
+def task10():
+    turnArm(-90, 0)
+    drive.turn(-90)
+    drive.straight(200)
+    drive.turn(45)
+    drive.straight(288*2)
+    drive.turn(45)
+    drive.straight(200)
+    drive.straight(-200)
+    drive.turn(-45)
+    drive.straight(-288*2)
+    drive.turn(-45)
+    drive.straight(-200)
+
+tasks = [across, resetArm, circle, task9]
 inputs = []
 inputCount =  0
 menuindex = 0
