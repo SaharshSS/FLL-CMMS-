@@ -94,7 +94,7 @@ def TrackLine1(Distance, Direction=True):
 
 def main():
     setup()
-    hub.speaker.beep(500)
+    hub.speaker.beep()
     global menuindex, inputCount
     hub.system.set_stop_button(Button.BLUETOOTH)
     while True:
@@ -107,6 +107,8 @@ def main():
         while True:
             pressed = hub.buttons.pressed()
             if Button.CENTER in pressed:
+                hub.display.char(str(menuindex))
+                hub.speaker.beep()
                 break
             if Button.LEFT in pressed:
                 menuindex -= 1
@@ -116,18 +118,17 @@ def main():
                 menuindex += 1
             menuindex = constrain(menuindex, 1, len(tasks))
             if dispOn:
-                hub.display.off()
                 dispOn = False
+                hub.display.off()
             else:
                 hub.display.char(str(menuindex))
                 dispOn = True
             wait(100)
         try:
             print(menuindex)
-            hub.display.char(str(menuindex))
             print(tasks[menuindex-1])
-            hub.speaker.beep()
             tasks[menuindex-1]()
+            drive.straight(0, then=Stop.COAST) #Disable gyroscope
         except TypeError:
             print("TypeError")
             print("Put function in another function, eg: def runfunc: run(x, y)")
