@@ -15,7 +15,7 @@ right = Motor(Port.B)
 
 drive = DriveBase(left, right, wheel_diameter=142, axle_track=450)
 
-color = ColorSensor(Port.C)
+colorSensor = ColorSensor(Port.C)
 try:
     distance = UltrasonicSensor(Port.E)
 except OSError:
@@ -74,9 +74,9 @@ def TrackLine(Distance, NewDistance=0, NewDirection=1):
         drive.straight(0, Stop.COAST)
         return
 
-    if ColorSensor.color() == "White":
+    if colorSensor.color() == "White":
         NewDirection = NewDirection * -1
-        while ColorSensor.color() != "White":
+        while colorSensor.color() != "White":
             drive.curve(20 * NewDirection, 1, Stop.COAST)
         drive.straight(1, Stop.COAST)
         NewDistance += 0.5
@@ -86,7 +86,7 @@ def TrackLine(Distance, NewDistance=0, NewDirection=1):
 def TrackLine1(Distance, Direction=True):
     curve_direction = 20 if Direction else -20
     while NewDistance < Distance:
-        if ColorSensor.color() == "White":
+        if colorSensor.color() == "White":
             drive.straight(1, Stop.COAST)
         else:
             drive.curve(curve_direction, 1, Stop.COAST)
@@ -96,8 +96,8 @@ def main():
     setup()
     hub.speaker.beep(500)
     global menuindex, inputCount
+    hub.system.set_stop_button(Button.BLUETOOTH)
     while True:
-        hub.system.set_stop_button(Button.BLUETOOTH)
         pressed = []
         dispOn = False
         if len(tasks) == 0:
