@@ -100,6 +100,10 @@ def main():
         hub.system.set_stop_button(Button.BLUETOOTH)
         pressed = []
         dispOn = False
+        if len(tasks) == 0:
+            print("Empty tasks list")
+            print("Add items to tasks list to run")
+            break
         while True:
             pressed = hub.buttons.pressed()
             if Button.CENTER in pressed:
@@ -125,5 +129,6 @@ def main():
             hub.speaker.beep()
             tasks[menuindex-1]()
         except TypeError:
+            print("TypeError")
             print("Put function in another function, eg: def runfunc: run(x, y)")
 main()
