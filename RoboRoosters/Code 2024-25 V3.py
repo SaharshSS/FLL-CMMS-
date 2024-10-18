@@ -51,11 +51,25 @@ def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(45, 45, 1, 100)
     turnArm(0, 0, 2, 100)
     
 def circle():
     drive.curve(300, 360)
+
+def task1():
+    resetArm()
+    drive.turn(45)
+    drive.straight(288*1.5)
+    drive.turn(-45)
+    drive.straight(200*3)
+    drive.turn(-45)
+    drive.straight(100)
+    wait(100)
+    drive.straight(-100)
+    drive.turn(45)
+    drive.straight(200*-3)
+    drive.turn(45)
+    drive.straight(288*-1.5)
 
 def task9():
     turnArm(-90, 0)
@@ -71,13 +85,20 @@ def task10():
     drive.straight(288*2)
     drive.turn(45)
     drive.straight(200)
+    turnaArm(0, 45)
+    wait(500)
     drive.straight(-200)
     drive.turn(-45)
     drive.straight(-288*2)
     drive.turn(-45)
     drive.straight(-200)
 
-tasks = [across, resetArm, circle, task9]
+def task15():
+    resetArm()
+    drive.straight(800)
+    drive.straight(-200)
+
+tasks = [across, resetArm, circle, task1, task9, task10, task15]
 inputs = []
 inputCount =  0
 menuindex = 0
