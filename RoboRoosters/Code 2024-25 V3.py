@@ -7,19 +7,15 @@ from pybricks import version
 
 hub = PrimeHub()
 
-armBase = Motor(Port.D)
-armMid = Motor(Port.F, Direction.COUNTERCLOCKWISE)
+armMid = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+armBase = Motor(Port.F)
 
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
 
-drive = DriveBase(left, right, wheel_diameter=142, axle_track=450)
+drive = DriveBase(left, right, wheel_diameter=56.34, axle_track=139.7)
 
 colorSensor = ColorSensor(Port.C)
-try:
-    distance = UltrasonicSensor(Port.E)
-except OSError:
-    print("No distance sensor connected")
 
 def setup():
     print("Hello world!")
@@ -27,31 +23,31 @@ def setup():
     drive.reset()
     print("Version " + str(version))
     drive.use_gyro(True)
-    drive.settings(straight_speed = 2000, straight_acceleration = 4000, turn_rate = 500, turn_acceleration = 100)
+    #drive.settings(straight_speed = 7500, straight_acceleration = 1000, turn_rate = 500, turn_acceleration = 100)
     hub.imu.reset_heading(0)
-    turnArm(0, 0)
+    resetArm()
 
 def turnArm(angle1, angle2, mode = 0, speed = 500):
     if not mode:
-        armBase.run_target(speed, angle2, wait = False)
-        armMid.run_target(speed, angle2)
-        while not armBase.done():
+        armMid.run_target(speed, angle1, wait = False)
+        armBase.run_target(speed, angle2)
+        while not armMid.done():
             wait(50)
     elif mode == 1:
-        armBase.run_target(speed, angle1)
-        armMid.run_target(speed, angle2)
-    elif mode == 2:
         armMid.run_target(speed, angle1)
         armBase.run_target(speed, angle2)
+    elif mode == 2:
+        armBase.run_target(speed, angle1)
+        armMid.run_target(speed, angle2)
     else:
-        armMid.run_target(speed, angle1, wait = False)
-        armBase.run_target(speed, angle2, wait = False)
+        armBase.run_target(speed, angle1, wait = False)
+        armMid.run_target(speed, angle2, wait = False)
         
 def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(0, 0, 2, 100)
+    turnArm(90, 45, 2, 100)
     
 def circle():
     drive.curve(300, 360)
@@ -71,14 +67,23 @@ def task1():
     drive.turn(45)
     drive.straight(288*-1.5)
 
+def task8():
+    turnArm(90, 90)
+    drive.straight(-160)
+    drive.turn(-90)
+    drive.straight(500)
+    drive.turn(35)
+    drive.turn(-35)
+    drive.straight(-500)
+
 def task9():
-    turnArm(-90, 0)
+    turnArm(30, 0)
     drive.turn(-45)
     drive.straight(288*2) #Im lazy
     drive.straight(288*-2) #lazy again
 
 def task10():
-    turnArm(-90, 0)
+    resetArm()
     drive.turn(-90)
     drive.straight(200)
     drive.turn(45)
@@ -98,7 +103,7 @@ def task15():
     drive.straight(800)
     drive.straight(-200)
 
-tasks = [across, resetArm, circle, task1, task9, task10, task15]
+tasks = [across, resetArm, circle, task1, task8, task9, task10, task15]
 inputs = []
 inputCount =  0
 menuindex = 0
