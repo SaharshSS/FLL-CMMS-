@@ -7,8 +7,8 @@ from pybricks import version
 
 hub = PrimeHub()
 
-armMid = Motor(Port.D, Direction.COUNTERCLOCKWISE)
-armBase = Motor(Port.F)
+armMid = Motor(Port.D)
+armBase = Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
@@ -28,6 +28,8 @@ def setup():
     resetArm()
 
 def turnArm(angle1, angle2, mode = 0, speed = 500):
+    angle1 = constrain(angle1, 85, -25)
+    angle2 = constrain(angle2, 90, 0)
     if not mode:
         armMid.run_target(speed, angle1, wait = False)
         armBase.run_target(speed, angle2)
@@ -47,7 +49,7 @@ def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(90, 45, 2, 100)
+    turnArm(85, 0, 2, 100)
     
 def circle():
     drive.curve(300, 360)
@@ -68,7 +70,7 @@ def task1():
     drive.straight(288*-1.5)
 
 def task8():
-    turnArm(90, 90)
+    turnArm(85, 90)
     drive.straight(-160)
     drive.turn(-90)
     drive.straight(500)
