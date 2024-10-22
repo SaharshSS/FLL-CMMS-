@@ -49,7 +49,7 @@ def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(85, 0, 2, 100)
+    turnArm(85, 0, 3, 100)
     
 def circle():
     drive.curve(300, 360)
@@ -128,7 +128,6 @@ def TrackLine(Distance, NewDistance=0, NewDirection=1):
             drive.curve(20 * NewDirection, 1, Stop.COAST)
         drive.straight(1, Stop.COAST)
         NewDistance += 0.5
-
     TrackLine(Distance, NewDistance, NewDirection)
 
 def TrackLine1(Distance, Direction=True):
