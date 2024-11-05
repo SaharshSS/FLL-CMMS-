@@ -23,25 +23,25 @@ def setup():
     drive.reset()
     print("Version " + str(version))
     drive.use_gyro(True)
-    drive.settings(straight_speed = 500, straight_acceleration = 1000, turn_rate = 500, turn_acceleration = 100)
+    drive.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 500, turn_acceleration = 100)
     hub.imu.reset_heading(0)
     resetArm()
 
-def turnArm(angle1, angle2, mode = 0, speed = 500):
+def turnArm(midAngle, baseAngle, mode = 0, speed = 500):
     if not mode:
-        armMid.run_target(speed, angle1, wait = False)
-        armBase.run_target(speed, angle2)
+        armMid.run_target(speed, midAngle, wait = False)
+        armBase.run_target(speed, baseAngle)
         while not armMid.done():
             wait(50)
     elif mode == 1:
-        armMid.run_target(speed, angle1)
-        armBase.run_target(speed, angle2)
+        armMid.run_target(speed, midAngle)
+        armBase.run_target(speed, baseAngle)
     elif mode == 2:
-        armBase.run_target(speed, angle1)
-        armMid.run_target(speed, angle2)
+        armBase.run_target(speed, midAngle)
+        armMid.run_target(speed, baseAngle)
     else:
-        armBase.run_target(speed, angle1, wait = False)
-        armMid.run_target(speed, angle2, wait = False)
+        armBase.run_target(speed, midAngle, wait = False)
+        armMid.run_target(speed, baseAngle, wait = False)
         
 def across():
     drive.straight(1000)
@@ -74,7 +74,7 @@ def task2():
     drive.straight(500)
     drive.turn(-45)
     drive.straight(20)
-    turnArm(0, 0)
+    turnArm(0, -10)
     wait(1000)
     resetArm()
     drive.straight(-20)
@@ -125,7 +125,7 @@ def task10():
     drive.straight(288*2)
     drive.turn(45)
     drive.straight(200)
-    turnaArm(0, 45)
+    turnArm(0, 45)
     wait(500)
     drive.straight(-200)
     drive.turn(-45)
