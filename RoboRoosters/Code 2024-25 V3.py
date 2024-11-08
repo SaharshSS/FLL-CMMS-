@@ -7,7 +7,7 @@ from pybricks import version
 
 hub = PrimeHub()
 
-armMid = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+armMid = Motor(Port.D)
 armBase = Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
@@ -19,29 +19,30 @@ colorSensor = ColorSensor(Port.C)
 
 def setup():
     print("Hello world!")
-    hub.display.icon(Icon.PAUSE)
+    hub.display.icon(Icon.CIRCLE)
     drive.reset()
     print("Version " + str(version))
     drive.use_gyro(True)
-    drive.settings(straight_speed = 500, straight_acceleration = 1000, turn_rate = 500, turn_acceleration = 100)
+    drive.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 500, turn_acceleration = 100)
     hub.imu.reset_heading(0)
+    while not hub.imu.ready():
+        wait(100)
+        hub.display.icon(Icon.FALSE)
     resetArm()
 
-def turnArm(angle1, angle2, mode = 0, speed = 500):
+def turnArm(midAngle, baseAngle, mode = 0, speed = 500):
     if not mode:
-        armMid.run_target(speed, angle1, wait = False)
-        armBase.run_target(speed, angle2)
-        while not armMid.done():
-            wait(50)
+        armMid.run_target(speed, midAngle, wait = False)
+        armBase.run_target(speed, baseAngle)
     elif mode == 1:
-        armMid.run_target(speed, angle1)
-        armBase.run_target(speed, angle2)
+        armMid.run_target(speed, midAngle)
+        armBase.run_target(speed, baseAngle)
     elif mode == 2:
-        armBase.run_target(speed, angle1)
-        armMid.run_target(speed, angle2)
+        armBase.run_target(speed, midAngle)
+        armMid.run_target(speed, baseAngle)
     else:
-        armBase.run_target(speed, angle1, wait = False)
-        armMid.run_target(speed, angle2, wait = False)
+        armBase.run_target(speed, midAngle, wait = False)
+        armMid.run_target(speed, baseAngle, wait = False)
         
 def across():
     drive.straight(1000)
@@ -52,6 +53,32 @@ def resetArm():
 def circle():
     drive.curve(300, 360)
 
+def across():
+    wait(100)
+    pressed = []
+    arrowDir = False
+    while True:
+        pressed = hub.buttons.pressed()
+        if arrowDir:
+            arrowDir = False
+            hub.display.icon(Icon.ARROW_LEFT)
+        else:
+            arrowDir = True
+            hub.display.icon(Icon.ARROW_RIGHT)
+        if any(pressed):
+            break
+        wait(100)
+    hub.display.text("Across", 150, 0)
+    if Button.Right in pressed:     #Double check measurements
+        drive.curve(200, 90)
+        drive.straight(1000)
+        drive.curve(200, 45)
+        drive.straight(200)
+    else:
+        drive.curve(200, -90)
+        drive.straight(1000)
+        drive.curve(200, -45)
+        drive.straight(200)
 def task1():
     resetArm()
     drive.turn(45)
@@ -117,7 +144,7 @@ def task7():
     resetArm()
 
 def task8():
-    turnArm(85, 90)
+    turnArm(90, 77.5)
     drive.straight(-160)
     drive.turn(-90)
     drive.straight(500)
@@ -126,7 +153,7 @@ def task8():
     drive.straight(-500)
 
 def task9():
-    turnArm(30, 0)
+    turnArm(0, 30)
     drive.turn(-45)
     drive.straight(288*2) #Im lazy
     drive.straight(288*-2) #lazy again
@@ -138,13 +165,13 @@ def task10():
     drive.turn(45)
     drive.straight(950)
     drive.turn(45)
-    turnArm(60, 0)
+    turnArm(0, 60)
     drive.straight(75)
-    turnArm(-30, 60, mode=2)
+    turnArm(30, 60, mode=2)
     drive.straight(25)
-    turnArm(-60, 60, mode=2)
+    turnArm(60, 60, mode=2)
     drive.straight(50)
-    turnArm(-90, 90, mode=2)
+    turnArm(90, 90, mode=2)
     drive.straight(-150)
     drive.turn(-45)
     drive.straight(-950)
@@ -218,10 +245,8 @@ def main():
         while True:
             pressed = hub.buttons.pressed()
             if Button.CENTER in pressed:
-                if menuindex >= 10:
-                    hub.display.number(menuindex)
-                else:
-                    hub.display.char(str(menuindex))
+                if not menuindex == 0:
+                    hub.display.text("Task " + str(menuindex), 150, 0)
                 hub.speaker.beep()
                 break
             if Button.LEFT in pressed:
@@ -230,17 +255,22 @@ def main():
             elif Button.RIGHT in pressed:
                 hub.speaker.beep()
                 menuindex += 1
-            menuindex = constrain(menuindex, 1, len(tasks))
+            menuindex = constrain(menuindex, 0, len(tasks))
             if dispOn:
                 dispOn = False
                 hub.display.off()
             else:
                 if menuindex >= 10:
                     hub.display.number(menuindex)
+                elif menuindex == 0:
+                    hub.display.char("A")
                 else: 
                     hub.display.char(str(menuindex))
                 dispOn = True
             wait(100)
+        if menuindex == 0:
+            print("Across")
+            across()
         try:
             print(menuindex)
             print(tasks[menuindex-1])
