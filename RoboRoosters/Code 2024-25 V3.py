@@ -23,31 +23,31 @@ def setup():
     drive.reset()
     print("Version " + str(version))
     drive.use_gyro(True)
-    drive.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 500, turn_acceleration = 100)
+    drive.settings(straight_speed = 500, straight_acceleration = 1000, turn_rate = 500, turn_acceleration = 100)
     hub.imu.reset_heading(0)
     resetArm()
 
-def turnArm(midAngle, baseAngle, mode = 0, speed = 500):
+def turnArm(angle1, angle2, mode = 0, speed = 500):
     if not mode:
-        armMid.run_target(speed, midAngle, wait = False)
-        armBase.run_target(speed, baseAngle)
+        armMid.run_target(speed, angle1, wait = False)
+        armBase.run_target(speed, angle2)
         while not armMid.done():
             wait(50)
     elif mode == 1:
-        armMid.run_target(speed, midAngle)
-        armBase.run_target(speed, baseAngle)
+        armMid.run_target(speed, angle1)
+        armBase.run_target(speed, angle2)
     elif mode == 2:
-        armBase.run_target(speed, midAngle)
-        armMid.run_target(speed, baseAngle)
+        armBase.run_target(speed, angle1)
+        armMid.run_target(speed, angle2)
     else:
-        armBase.run_target(speed, midAngle, wait = False)
-        armMid.run_target(speed, baseAngle, wait = False)
+        armBase.run_target(speed, angle1, wait = False)
+        armMid.run_target(speed, angle2, wait = False)
         
 def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(0, 90, 3, 100)
+    turnArm(0, 77.5, 3, 100)
     
 def circle():
     drive.curve(300, 360)
@@ -55,26 +55,29 @@ def circle():
 def task1():
     resetArm()
     drive.turn(45)
-    drive.straight(288*1.5)
+    drive.straight(250)
     drive.turn(-45)
-    drive.straight(200*3)
-    drive.turn(-45)
-    drive.straight(150)
+    drive.straight(375)
+    drive.turn(-90)
+    turnArm(0, -20, mode = 1, speed = 100)
+    drive.straight(75)
     wait(1000)
-    drive.straight(-150)
+    drive.straight(-125)
+    drive.turn(90)
+    drive.straight(-375)
     drive.turn(45)
-    drive.straight(200*-3)
-    drive.turn(45)
-    drive.straight(288*-1.5)
+    drive.straight(-300)
+    resetArm()
 
 def task2():
+    resetArm()
     drive.turn(45)
     drive.straight(200)
     drive.turn(-45)
     drive.straight(500)
     drive.turn(-45)
     drive.straight(20)
-    turnArm(0, -10)
+    turnArm(0, 0)
     wait(1000)
     resetArm()
     drive.straight(-20)
@@ -90,7 +93,18 @@ def task4():
     pass
 
 def task5():
-    pass
+    resetArm()
+    drive.turn(-90)
+    drive.straight(275)
+    drive.turn(45)
+    drive.straight(900)
+    drive.curve(100, 225)
+    drive.straight(150)
+    drive.curve(100, -45)
+    drive.straight(750)
+    drive.turn(-45)
+    wait(500)
+    drive.straight(200)
 
 def task6():
     drive.straight(500)
@@ -120,18 +134,23 @@ def task9():
 def task10():
     resetArm()
     drive.turn(-90)
-    drive.straight(200)
+    drive.straight(250)
     drive.turn(45)
-    drive.straight(288*2)
+    drive.straight(950)
     drive.turn(45)
-    drive.straight(200)
-    turnArm(0, 45)
-    wait(500)
-    drive.straight(-200)
+    turnArm(60, 0)
+    drive.straight(75)
+    turnArm(-30, 60, mode=2)
+    drive.straight(25)
+    turnArm(-60, 60, mode=2)
+    drive.straight(50)
+    turnArm(-90, 90, mode=2)
+    drive.straight(-150)
     drive.turn(-45)
-    drive.straight(-288*2)
+    drive.straight(-950)
     drive.turn(-45)
-    drive.straight(-200)
+    drive.straight(300)
+
 
 def task11():
     pass
@@ -199,7 +218,10 @@ def main():
         while True:
             pressed = hub.buttons.pressed()
             if Button.CENTER in pressed:
-                hub.display.char(str(menuindex))
+                if menuindex >= 10:
+                    hub.display.number(menuindex)
+                else:
+                    hub.display.char(str(menuindex))
                 hub.speaker.beep()
                 break
             if Button.LEFT in pressed:
