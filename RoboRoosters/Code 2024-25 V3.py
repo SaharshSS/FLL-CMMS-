@@ -271,12 +271,13 @@ def main():
         if menuindex == 0:
             print("Across")
             across()
-        try:
-            print(menuindex)
-            print(tasks[menuindex-1])
-            tasks[menuindex-1]()
-            drive.straight(0, then=Stop.COAST) #Disable gyroscope
-        except TypeError:
-            print("TypeError")
-            print("Put function in another function, eg: def runfunc: run(x, y)")
+        else:
+            try:
+                print(menuindex)
+                print(tasks[menuindex-1])
+                tasks[menuindex-1]()
+                drive.straight(0, then=Stop.COAST) #Disable gyroscope
+            except TypeError:
+                print("TypeError")
+                print("Put function in another function, eg: def runfunc: run(x, y)")
 main()
