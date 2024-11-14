@@ -272,7 +272,7 @@ def main():
                 dispOn = True
             wait(100)
         if menuindex == 0:
-            print("Across")
+            print("Going across")
             across()
         else:
             try:
