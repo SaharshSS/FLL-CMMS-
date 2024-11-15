@@ -7,7 +7,7 @@ from pybricks import version
 
 hub = PrimeHub()
 
-armMid = Motor(Port.D)
+armMid = Motor(Port.D, Direction.COUNTERCLOCKWISE)
 armBase = Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
@@ -67,18 +67,15 @@ def across():
             hub.display.icon(Icon.ARROW_RIGHT)
         if any(pressed):
             break
-        wait(100)
-    hub.display.text("Across", 150, 0)
-    if Button.Right in pressed:     #Double check measurements
-        drive.curve(200, 90)
-        drive.straight(1000)
-        drive.curve(200, 45)
-        drive.straight(200)
+        wait(500)
+    if Button.RIGHT in pressed:     #Double check measurements
+        drive.curve(200, 95, Stop.HOLD)
+        drive.straight(1200)
+        drive.curve(200, 65)
     else:
-        drive.curve(200, -90)
-        drive.straight(1000)
-        drive.curve(200, -45)
-        drive.straight(200)
+        drive.curve(200, -95, Stop.HOLD)
+        drive.straight(1200)
+        drive.curve(200, -65)
 def task1():
     resetArm()
     drive.turn(45)
@@ -121,20 +118,20 @@ def task4():
 
 def task5():
     resetArm()
+    drive.straight(50)
     drive.turn(-90)
-    drive.straight(275)
+    drive.straight(350)
     drive.turn(45)
-    drive.straight(700)
-    drive.drive(90, 0)
-    wait(4000)
-    drive.drive(0, 0)
-    drive.curve(100, 225)
+    drive.straight(850)
+    drive.curve(100, -45)
+    drive.curve(50, 270)
     drive.straight(150)
     drive.curve(100, -45)
-    drive.straight(750)
+    drive.straight(300)
     drive.turn(-45)
-    wait(500)
-    drive.straight(200)
+    drive.straight(250)
+    drive.turn(45)
+    drive.straight(250)
 
 def task6():
     drive.straight(500)
@@ -147,7 +144,7 @@ def task7():
     resetArm()
 
 def task8():
-    turnArm(90, 77.5)
+    turnArm(-45, 77.5)
     drive.straight(-160)
     drive.turn(-90)
     drive.straight(500)
@@ -156,10 +153,11 @@ def task8():
     drive.straight(-500)
 
 def task9():
-    turnArm(0, 30)
+    turnArm(-90, 77.5, 3, 100)
     drive.turn(-45)
     drive.straight(288*2) #Im lazy
     drive.straight(288*-2) #lazy again
+    resetArm()
 
 def task10():
     resetArm()
@@ -189,7 +187,24 @@ def task12():
     pass
 
 def task13():
-    pass
+    turnArm(-90, 77.5, 3, 100)
+    drive.turn(-45)
+    drive.straight(200)
+    drive.turn(45)
+    drive.straight(525)
+    drive.turn(135)
+    drive.straight(-50)
+    turnArm(0, 0)
+    drive.straight(50)
+    resetArm()
+    drive.straight(150)
+    turnArm(-45, 77.5, 3, 100)
+    wait(500)
+    drive.straight(-100)
+    drive.turn(45)
+    drive.straight(525)
+    drive.turn(-45)
+    drive.straight(200)
 
 def task14():
     pass
@@ -247,9 +262,13 @@ def main():
             break
         while True:
             pressed = hub.buttons.pressed()
-            if Button.CENTER in pressed:
-                if not menuindex == 0:
-                    hub.display.text("Task " + str(menuindex), 150, 0)
+            if Button.CENTER in pressed:                
+                if menuindex >= 10:
+                    hub.display.number(menuindex)
+                elif menuindex == 0:
+                    hub.display.char("A")
+                else: 
+                    hub.display.char(str(menuindex))
                 hub.speaker.beep()
                 break
             if Button.LEFT in pressed:
@@ -274,6 +293,7 @@ def main():
         if menuindex == 0:
             print("Going across")
             across()
+            drive.straight(0, then=Stop.COAST) #Disable gyroscope
         else:
             try:
                 print(menuindex)
