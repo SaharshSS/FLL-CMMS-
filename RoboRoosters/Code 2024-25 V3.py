@@ -273,10 +273,12 @@ def main():
                 break
             if Button.LEFT in pressed:
                 menuindex -= 1
+                dispOn = False
                 hub.speaker.beep()
             elif Button.RIGHT in pressed:
                 hub.speaker.beep()
                 menuindex += 1
+                dispOn = False
             menuindex = constrain(menuindex, 0, len(tasks))
             if dispOn:
                 dispOn = False
