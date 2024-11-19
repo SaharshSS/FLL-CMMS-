@@ -29,6 +29,8 @@ def setup():
         wait(100)
         hub.display.icon(Icon.FALSE)
     resetArm()
+    armMid.stop()
+    armBase.stop()
 
 def turnArm(midAngle, baseAngle, mode = 0, speed = 500):
     if not mode:
@@ -48,7 +50,7 @@ def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(0, 77.5, 3, 100)
+    turnArm(0, 77.5, 2, 100)
     
 def circle():
     drive.curve(300, 360)
@@ -69,11 +71,11 @@ def across():
             break
         wait(500)
     if Button.RIGHT in pressed:     #Double check measurements
-        drive.curve(200, 95, Stop.HOLD)
+        drive.curve(200, 90, Stop.HOLD)
         drive.straight(1200)
         drive.curve(200, 65)
     else:
-        drive.curve(200, -95, Stop.HOLD)
+        drive.curve(200, -90, Stop.HOLD)
         drive.straight(1200)
         drive.curve(200, -65)
 def task1():
@@ -184,7 +186,9 @@ def task11():
     pass
 
 def task12():
-    pass
+    turnArm(-90, 77.5, 3)
+    drive.turn(-45)
+
 
 def task13():
     turnArm(-90, 77.5, 3, 100)
@@ -193,7 +197,7 @@ def task13():
     drive.turn(45)
     drive.straight(525)
     drive.turn(135)
-    drive.straight(-50)
+    drive.straight(-75)
     turnArm(0, 0)
     drive.straight(50)
     resetArm()
@@ -205,6 +209,7 @@ def task13():
     drive.straight(525)
     drive.turn(-45)
     drive.straight(200)
+    resetArm()
 
 def task14():
     pass
@@ -302,6 +307,8 @@ def main():
                 print(tasks[menuindex-1])
                 tasks[menuindex-1]()
                 drive.straight(0, then=Stop.COAST) #Disable gyroscope
+                armMid.stop()
+                armBase.stop()
             except TypeError:
                 print("TypeError")
                 print("Put function in another function, eg: def runfunc: run(x, y)")
