@@ -70,7 +70,7 @@ def across():
         if any(pressed):
             break
         wait(500)
-    if Button.RIGHT in pressed:     #Double check measurements
+    if Button.RIGHT in pressed:
         drive.curve(200, 90, Stop.HOLD)
         drive.straight(1200)
         drive.curve(200, 65)
@@ -136,7 +136,25 @@ def task5():
     drive.straight(250)
 
 def task6():
-    drive.straight(500)
+    resetArm()
+    drive.straight(280)
+    drive.turn(45)
+    drive.straight(200)
+    drive.turn(45)
+    turnArm(0, 0)
+    wait(1500)
+    drive.straight(145)
+    turnArm(35, 0)
+    wait(1000)
+    drive.straight(75)
+    turnArm(90, -40, 0, 75)
+    wait(1000)
+    turnArm(70, 10)
+    wait(500)
+    drive.straight(-250)
+    resetArm()
+    drive.turn(100)
+    drive.straight(400)
 
 def task7():
     turnArm(0, 0, mode = 4)
@@ -195,11 +213,11 @@ def task13():
     drive.turn(-45)
     drive.straight(200)
     drive.turn(45)
-    drive.straight(525)
+    drive.straight(500)
     drive.turn(135)
     drive.straight(-75)
     turnArm(0, 0)
-    drive.straight(50)
+    drive.straight(75)
     resetArm()
     drive.straight(150)
     turnArm(-45, 77.5, 3, 100)
