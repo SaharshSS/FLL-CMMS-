@@ -55,6 +55,15 @@ def resetArm():
 def circle():
     drive.curve(300, 360)
 
+def smoothArmAdvance(ammount, ratio = 1):
+    for i in range(ammount):
+        drive.straight(ratio)
+        if i < 90:
+            turnArm(-i, 0, 0, 10)
+        else:
+            turnArm(90, i-90, 0, 10)
+        wait(10)
+
 def across():
     wait(100)
     pressed = []
@@ -141,6 +150,7 @@ def task6():
     drive.turn(45)
     drive.straight(200)
     drive.turn(45)
+    '''
     turnArm(0, 0)
     wait(1500)
     drive.straight(145)
@@ -149,6 +159,8 @@ def task6():
     drive.straight(75)
     turnArm(90, -40, 0, 75)
     wait(1000)
+    '''
+    smoothArmAdvance(120)
     turnArm(70, 10)
     wait(500)
     drive.straight(-250)
