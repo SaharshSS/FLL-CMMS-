@@ -25,7 +25,7 @@ def setup():
     print("Current " + str(hub.battery.current()) + "mw, Voltage" + str(hub.battery.voltage()) + "mv")
     print("Name " + str(hub.system.name()))
     drive.use_gyro(True)
-    drive.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 500, turn_acceleration = 100)
+    drive.settings(straight_speed = 750, straight_acceleration = 1000, turn_rate = 750, turn_acceleration = 1000)
     hub.imu.reset_heading(0)
     while not hub.imu.ready():
         wait(100)
@@ -97,15 +97,16 @@ def task1():
     drive.turn(-45)
     drive.straight(375)
     drive.turn(-90)
-    turnArm(0, -20, mode = 1, speed = 100)
+    turnArm(0, -45, mode = 1, speed = 100)
     drive.straight(75)
+    wait(1000)
+    resetArm()
     wait(1000)
     drive.straight(-125)
     drive.turn(90)
     drive.straight(-375)
     drive.turn(45)
     drive.straight(-300)
-    resetArm()
 
 def task2():
     resetArm()
@@ -133,10 +134,16 @@ def task3():
     drive.turn(180)
     drive.straight(-300)
     drive.turn(-90)
-    turnArm(90, -10, mode = 4)
-    wait(2000)
+    turnArm(90, -10, 4, 50)
+    wait(4000)
     turnArm(-90, 77.5, 3, 100)
-    wait(200)
+    wait(1000)
+    drive.straight(-100)
+    drive.turn(90)
+    drive.straight(500)
+    drive.turn(45)
+    drive.straight(250)
+
 def task4():
     pass
 
@@ -161,7 +168,6 @@ def task5():
     resetArm()
     wait(200)
 
-
 def task6():
     drive.straight(100)
     drive.turn(90)
@@ -178,8 +184,8 @@ def task6():
     drive.turn(90)
     drive.straight(150)
     drive.turn(-90)
-    drive.straight(150)
-    drive.straight(-150)
+    drive.straight(200)
+    drive.straight(-200)
     drive.turn(-90)
     drive.straight(250)
     drive.turn(-45)
@@ -204,8 +210,8 @@ def task8():
 def task9():
     turnArm(-90, 77.5, 3, 100)
     drive.turn(-45)
-    drive.straight(288*2) #Im lazy
-    drive.straight(288*-2) #lazy again
+    drive.straight(600)
+    drive.straight(-600)
     resetArm()
 
 def task10():
@@ -220,7 +226,9 @@ def task10():
     drive.straight(175)
     for i in range(5):
         turnArm(-95, 77.5, 3, 100)
+        straight(50)
         wait(500)
+        straight(-50)
         resetArm()
         wait(500)
 
