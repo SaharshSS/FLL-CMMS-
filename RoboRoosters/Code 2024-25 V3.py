@@ -12,11 +12,11 @@ armBase = Motor(Port.F, Direction.COUNTERCLOCKWISE)
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
 
-left.control.target_tolerances(360, 3)
-right.control.target_tolerances(360, 3)
+left.control.target_tolerances(360, 5)
+right.control.target_tolerances(360, 5)
 
-armMid.control.target_tolerances(180, 3)
-armBase.control.target_tolerances(180, 3)
+armMid.control.target_tolerances(180, 5)
+armBase.control.target_tolerances(180, 5)
 
 
 drive = DriveBase(left, right, wheel_diameter=56.34, axle_track=139.7)
@@ -25,11 +25,13 @@ colorSensor = ColorSensor(Port.C)
 
 def setup():
     hub.speaker.beep()
-    print("Hello world!")
     hub.display.icon(Icon.CIRCLE)
     drive.reset()
+    print("")
     print("Version " + str(version))
-    print("Current " + str(hub.battery.current()) + "mw, Voltage" + str(hub.battery.voltage()) + "mv")
+    print("Battery Current " + str(hub.battery.current()))
+    v = hub.battery.voltage()
+    print("Battery voltage " + str(v) + "v / Percentage " + str(percentFromVolt(v)) + "%")
     print("Name " + str(hub.system.name()))
     drive.use_gyro(True)
     drive.settings(straight_speed = 750, straight_acceleration = 1000, turn_rate = 750, turn_acceleration = 1000)
@@ -46,6 +48,7 @@ def setup():
         wait(100)
     left.stop()
     right.stop()
+
 
 def turnArm(midAngle, baseAngle, mode = 0, speed = 1000):
     if not mode:
@@ -107,22 +110,19 @@ def across():
         drive.straight(1200)
         drive.curve(200, -65)
 def task1():
-    resetArm()
     drive.turn(45)
-    drive.straight(250)
+    drive.straight(300)
     drive.turn(-45)
-    drive.straight(375)
+    drive.straight(420)
+    turnArm(-55, 55, 3, 100)
     drive.turn(-90)
-    turnArm(0, -45, mode = 1, speed = 100)
-    drive.straight(75)
-    wait(1000)
+    drive.straight(150)
     resetArm()
-    wait(1000)
-    drive.straight(-125)
-    drive.turn(90)
-    drive.straight(-375)
+    drive.straight(-100)
+    drive.turn(-90)
+    drive.straight(420)
     drive.turn(45)
-    drive.straight(-300)
+    drive.straight(300)
 
 def task2():
     resetArm()
@@ -363,7 +363,7 @@ def task15():
 
 def SAATest():
     smoothArmAdvance(100)
-tasks = [task1, task2, task3, task4, task5, task6, task7, task8, task9, task10, task11, task12, task13, task14, task15, SAATest, armUp]
+tasks = [task1, task2, task3, task4, task5, task6, task7, task8, task9, task10, task11, task12, task13, task14, task15, SAATest, armUp, colorSensor.color]
 inputs = []
 inputCount =  0
 menuindex = 0
@@ -374,6 +374,12 @@ def constrain(value, minimum, maximum):
     if value > maximum:
         return maximum
     return value
+
+def percentFromVolt(voltage):
+    voltage = voltage - 6.2
+    voltage = voltage * 200
+    voltage = constrain(voltage, 0, 100)
+    return voltage
 
 def TrackLine(Distance, NewDistance=0, NewDirection=1):
     if NewDistance >= Distance:
@@ -442,19 +448,33 @@ def main():
                 dispOn = 0
             wait(100)
         if menuindex == 0:
+            print("")
             print("Going across")
             across()
             drive.straight(0, then=Stop.COAST) #Disable gyroscope
         else:
             try:
                 resetArm()
-                print(menuindex)
-                print(tasks[menuindex-1])
-                tasks[menuindex-1]()
-                drive.straight(0, then=Stop.COAST) #Disable gyroscope
+                print("")
+                print("Running task " + str(menuindex))
+                v = hub.battery.voltage()/1000
+                print("Battery voltage " + str(v) + "v / Percentage " + str(percentFromVolt(v)) + "%")
+                x = tasks[menuindex-1]()
+                drive.stop() #Disable gyroscope
                 resetArm()
                 armMid.stop()
                 armBase.stop()
+                print("")
+                print("Task " + str(menuindex) + " finished, returned " + str(x))
+                if not x == None:
+                    hub.display.text(str(x), 150, 25)
+                v2 = hub.battery.voltage()/1000
+                print("Battery voltage " + str(v2) + "v / Percentage" + str(percentFromVolt(v2)) + "%")
+                change = round((v2-v)*1000)/1000
+                if change > 0:
+                    print("Battery change +" + str(round((v2-v)*1000)/1000) + "v")
+                elif change < 0:
+                    print("Battery change +" + str(round((v2-v)*1000)/1000) + "v")
             except TypeError:
                 print("TypeError")
                 print("Put function in another function, eg: def runfunc: run(x, y)")
