@@ -1,4 +1,5 @@
 from pybricks.hubs import PrimeHub
+import Math
 
 hub = PrimeHub()
 
@@ -11,6 +12,4 @@ def current():
     return hub.battery.current()/1000
 
 def percentage(voltage):
-    voltage = voltage - 7.75
-    voltage = voltage * 200
-    return voltage
+    return (Math.constrain(Math.remap(voltage, 6.2, 8.2, 0, 100), 0, 100))
