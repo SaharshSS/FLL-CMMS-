@@ -4,7 +4,6 @@ from pybricks.parameters import Color, Button, Port, Direction, Stop, Side, Icon
 from pybricks.pupdevices import Motor, UltrasonicSensor, ColorSensor
 from pybricks.tools import run_task, wait
 from pybricks import version
-
 hub = PrimeHub()
 
 armMid = Motor(Port.D, Direction.COUNTERCLOCKWISE)
@@ -13,11 +12,19 @@ armBase = Motor(Port.F, Direction.COUNTERCLOCKWISE)
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
 
+left.control.target_tolerances(360, 3)
+right.control.target_tolerances(360, 3)
+
+armMid.control.target_tolerances(180, 3)
+armBase.control.target_tolerances(180, 3)
+
+
 drive = DriveBase(left, right, wheel_diameter=56.34, axle_track=139.7)
 
 colorSensor = ColorSensor(Port.C)
 
 def setup():
+    hub.speaker.beep()
     print("Hello world!")
     hub.display.icon(Icon.CIRCLE)
     drive.reset()
@@ -25,16 +32,22 @@ def setup():
     print("Current " + str(hub.battery.current()) + "mw, Voltage" + str(hub.battery.voltage()) + "mv")
     print("Name " + str(hub.system.name()))
     drive.use_gyro(True)
-    drive.settings(straight_speed = 900, straight_acceleration = 500, turn_rate = 750, turn_acceleration = 250)
+    drive.settings(straight_speed = 750, straight_acceleration = 1000, turn_rate = 750, turn_acceleration = 1000)
     hub.imu.reset_heading(0)
     while not hub.imu.ready():
         wait(100)
         hub.display.icon(Icon.FALSE)
     resetArm()
+    left.run_target(5000, 0, wait = False)
+    right.run_target(5000, 0, wait = False)
     armMid.stop()
     armBase.stop()
+    while not left.done() or not right.done():
+        wait(100)
+    left.stop()
+    right.stop()
 
-def turnArm(midAngle, baseAngle, mode = 0, speed = 500):
+def turnArm(midAngle, baseAngle, mode = 0, speed = 1000):
     if not mode:
         armMid.run_target(speed, midAngle, wait = False)
         armBase.run_target(speed, baseAngle)
@@ -52,8 +65,11 @@ def across():
     drive.straight(1000)
 
 def resetArm():
-    turnArm(0, 77.5, 2, 100)
+    turnArm(0, 77.5, 2, 2500)
     
+def armUp():
+    turnArm(-80, 77.5, 2, 2500)
+
 def circle():
     drive.curve(300, 360)
 
@@ -91,20 +107,6 @@ def across():
         drive.straight(1200)
         drive.curve(200, -65)
 def task1():
-    drive.turn(45)
-    drive.straight(300)
-    drive.turn(-45)
-    drive.straight(420)
-    turnArm(-55, 55, 3, 100)
-    drive.turn(-90)
-    drive.straight(150)
-    resetArm()
-    drive.straight(-100)
-    drive.turn(-90)
-    drive.straight(350)
-    drive.turn(45)
-    drive.straight(350)
-    '''
     resetArm()
     drive.turn(45)
     drive.straight(250)
@@ -116,18 +118,12 @@ def task1():
     wait(1000)
     resetArm()
     wait(1000)
+    drive.straight(-125)
     drive.turn(90)
-    drive.straight(25)
-    drive.turn(-90)
-    drive.straight(50)
-    turnArm(-90, 77.5, 3, 100)
-    wait(1000)
-    drive.straight(-200)
-    drive.turn(90)
-    drive.straight(-500)
+    drive.straight(-375)
     drive.turn(45)
     drive.straight(-300)
-    '''
+
 def task2():
     resetArm()
     drive.turn(45)
@@ -135,29 +131,29 @@ def task2():
     drive.turn(-45)
     drive.straight(500)
     drive.turn(-45)
-    drive.straight(100)
+    drive.straight(20)
     turnArm(0, 0)
     wait(1000)
     resetArm()
-    drive.straight(-100)
+    drive.straight(-20)
     drive.turn(45)
     drive.straight(-500)
     drive.turn(45)
     drive.straight(-200)
 
 def task3():
-    turnArm(-90, 77.5, 3, 100)
+    armUp()
     drive.turn(45)
     drive.straight(200)
     drive.turn(-45)
-    drive.straight(475)
+    drive.straight(500)
     drive.turn(180)
     drive.straight(-300)
     drive.turn(-90)
-    resetArm()
+    turnArm(90, -10, 4, 50)
     wait(4000)
-    turnArm(-90, 77.5, 3, 100)
-    wait(1000)
+    resetArm()
+    armUp()
     drive.straight(-100)
     drive.turn(90)
     drive.straight(500)
@@ -168,7 +164,7 @@ def task4():
     pass
 
 def task5():
-    turnArm(-90, 77.5, 3, 100)
+    armUp()
     drive.turn(-45)
     drive.straight(285)
     drive.turn(-45)
@@ -197,45 +193,87 @@ def task6():
     drive.straight(100)
     turnArm(-45, 45, speed = 25, mode = 4)
     wait(1000)
-    drive.straight(100)
+    drive.straight(50)
     turnArm(-62.5, 45, speed = 25, mode = 4)
     wait(1000)
-    drive.straight(-100)
+    drive.straight(-50)
     drive.turn(90)
-    drive.straight(100)
-    resetArm()
+    drive.straight(150)
     drive.turn(-90)
-    drive.straight(135)
-    drive.turn(-35)
-    drive.straight(-100)
-    drive.turn(35)
-    drive.turn(45)
+    drive.straight(200)
     drive.straight(-200)
-    drive.turn(45)
-    drive.straight(-500)
+    drive.turn(-90)
+    drive.straight(250)
+    drive.turn(-45)
+    drive.straight(400)
 
 def task7():
-    turnArm(0, 0, mode = 4)
+    '''
+    turnArm(0, 0, mode = 2)
     drive.turn(-45)
     drive.straight(500)
+    turnArm(0, 45, 2, 2500)
+    drive.straight()
     drive.straight(-500)
-    resetArm()
+    '''
+    '''
+    drive.turn(-90)
+    drive.straight(250)
+    drive.turn(45)
+    drive.straight(500)
+    drive.turn(45)
+    turnArm(0, 60)
+    drive.straight(75)
+    turnArm(30, 60, mode=2)
+    drive.straight(25)
+    turnArm(60, 60, mode=2)
+    drive.straight(50)
+    turnArm(90, 90, mode=2)
+    drive.straight(-150)
+    drive.turn(-45)
+    drive.straight(-950)
+    drive.turn(-45)
+    drive.straight(300)
+    '''
+    drive.straight(-100)
+    drive.turn(45)
+    drive.straight(200)
+    drive.turn(45)
+    drive.straight(100)
+    drive.turn(-45)
+    drive.straight(100)
+    drive.turn(-45)
+    drive.straight(200)
+    turnArm(45, 0)
+    drive.straight(100)
+    armUp()
+    drive.straight(-200)
+    drive.turn(90)
+    drive.straight(50)
+    drive.turn(-90)
+    drive.straight(200)
+    drive.straight(-200)
+    drive.turn(-90)
+    drive.straight(250)
+    drive.turn(-45)
+    drive.straight(350)
 
 def task8():
-    turnArm(-45, 77.5)
+    turnArm(0, 0)
     drive.straight(-160)
     drive.turn(-90)
     drive.straight(500)
-    drive.turn(35)
-    drive.turn(-35)
-    drive.straight(-500)
+    resetArm()
+    drive.straight(50)
+    armUp()
+    drive.straight(100)
+    drive.straight(-600)
 
 def task9():
-    turnArm(-90, 77.5, 3, 100)
+    armUp()
     drive.turn(-45)
     drive.straight(600)
     drive.straight(-600)
-    resetArm()
 
 def task10():
     resetArm()
@@ -248,19 +286,23 @@ def task10():
     drive.turn(-30)
     drive.straight(175)
     for i in range(5):
-        turnArm(-95, 77.5, 3, 100)
-        straight(50)
-        wait(500)
-        straight(-50)
+        drive.straight(75)
+        armUp()
         resetArm()
-        wait(500)
-
+        drive.straight(-75)
+    drive.straight(-100)
+    drive.turn(-150)
+    drive.straight(300)
+    drive.turn(-45)
+    drive.straight(500)
+    drive.turn(-45)
+    drive.straight(350)
 
 def task11():
     pass
 
 def task12():
-    turnArm(-95, 77.5, 3, 100)
+    armUp()
     wait(10000)
     drive.turn(-45)
     drive.straight(200)
@@ -277,37 +319,51 @@ def task12():
 
 
 def task13():
-    turnArm(-90, 77.5, 3, 100)
+    armUp()
     drive.turn(-45)
-    drive.straight(180)
+    drive.straight(200)
     drive.turn(45)
     drive.straight(500)
     drive.turn(135)
     drive.straight(-75)
     turnArm(20, 0)
-    drive.straight(125)
+    drive.straight(100)
     resetArm()
     drive.straight(150)
-    turnArm(-25, 77.5, 3, 100)
-    wait(500)
+    turnArm(-25, 77.5, 2, 100)
     drive.straight(-100)
     drive.turn(45)
     drive.straight(525)
     drive.turn(-45)
     drive.straight(100)
-    turnArm(-90, 77.5, 3, 100)
-    wait(500)
 
 def task14():
     pass
 
 def task15():
+    armUp()
+    drive.straight(100)
+    drive.turn(90)
+    drive.straight(200)
     resetArm()
-    drive.straight(800)
+    drive.straight(200)
     drive.straight(-200)
+    armUp()
+    drive.turn(45)
+    drive.straight(100)
+    drive.turn(-45)
+    drive.straight(400)
+    drive.straight(-400)
+    drive.turn(-135)
+    drive.straight(100)
+    drive.turn(-45)
+    drive.straight(200)
+    drive.turn(-45)
+    drive.straight(200)
+
 def SAATest():
     smoothArmAdvance(100)
-tasks = [task1, task2, task3, task4, task5, task6, task7, task8, task9, task10, task11, task12, task13, task14, task15, SAATest]
+tasks = [task1, task2, task3, task4, task5, task6, task7, task8, task9, task10, task11, task12, task13, task14, task15, SAATest, armUp]
 inputs = []
 inputCount =  0
 menuindex = 0
@@ -366,15 +422,15 @@ def main():
                 break
             if Button.LEFT in pressed:
                 menuindex -= 1
-                dispOn = False
+                dispOn = 3
                 hub.speaker.beep()
             elif Button.RIGHT in pressed:
                 hub.speaker.beep()
                 menuindex += 1
-                dispOn = False
+                dispOn = 3
             menuindex = constrain(menuindex, 0, len(tasks))
-            if dispOn:
-                dispOn = False
+            if dispOn <= 2:
+                dispOn = dispOn + 1
                 hub.display.off()
             else:
                 if menuindex >= 10:
@@ -383,7 +439,7 @@ def main():
                     hub.display.char("A")
                 else: 
                     hub.display.char(str(menuindex))
-                dispOn = True
+                dispOn = 0
             wait(100)
         if menuindex == 0:
             print("Going across")
@@ -391,10 +447,12 @@ def main():
             drive.straight(0, then=Stop.COAST) #Disable gyroscope
         else:
             try:
+                resetArm()
                 print(menuindex)
                 print(tasks[menuindex-1])
                 tasks[menuindex-1]()
                 drive.straight(0, then=Stop.COAST) #Disable gyroscope
+                resetArm()
                 armMid.stop()
                 armBase.stop()
             except TypeError:
