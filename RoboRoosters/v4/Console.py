@@ -1,6 +1,6 @@
 from pybricks.hubs import PrimeHub
 from pybricks import version
-import Tasks, Arm
+import Tasks, Arm, Timer
 
 import Battery
 
@@ -22,10 +22,19 @@ def Stats():
     v = Battery.voltage()
     print("Battery voltage " + str(v) + "v / Percentage " + str(Battery.percentage(v)) + "%")
     print("Name " + str(hub.system.name()))
+    print("Time " + str(Timer.time()) + "ms")
+
+def dispMenu(index):
+        if index > 0:
+            dispNumber(index)
+        elif index == 0:
+            hub.display.char("R")
+        else:
+            hub.display.char("L")
 
 def Run(index, function):
     Arm.resetArm()
-    dispNumber(index)
+    dispMenu(index)
     print("")
     print("Running task " + str(index))
     v = Battery.voltage()
@@ -38,6 +47,7 @@ def Run(index, function):
     v2 = Battery.voltage()
     print("")
     print("Battery voltage " + str(v2) + "v / Percentage" + str(Battery.percentage(v2)) + "%")
+    print("Time " + str(Timer.time()) + "ms")
     Arm.resetArm()
     Arm.disableArm()
-    Tasks.stop()
+    Tasks.Stop()
