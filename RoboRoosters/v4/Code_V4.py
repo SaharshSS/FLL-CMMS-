@@ -1,60 +1,58 @@
 from pybricks.hubs import PrimeHub
 from pybricks.parameters import Button, Icon
 from pybricks.tools import wait
-import Arm, Console, Tasks, Math
+import Arm, Console, Tasks, Math, Timer
 
 hub = PrimeHub()
 
-TaskList = [Tasks.task1, Tasks.task2, Tasks.task3, Tasks.task4, Tasks.task5, Tasks.task6, Tasks.task7, Tasks.task8, Tasks.task9, Tasks.task10, Tasks.task11, Tasks.task12, Tasks.task13, Tasks.task14, Tasks.task15]
+TaskList = [Tasks.acrossl, Tasks.acrossr, Tasks.task1, Tasks.task2, Tasks.task3, Tasks.task4, Tasks.task5, Tasks.task6, Tasks.task7, Tasks.task8, Tasks.task9, Tasks.task10, Tasks.task11, Tasks.task12, Tasks.task13, Tasks.task14, Tasks.task15, Tasks.pushups]
 
 def setup():
+    Timer.reset()
     hub.speaker.beep()
     hub.system.set_stop_button(Button.BLUETOOTH)
     Arm.resetArm()
+    Arm.disableArm()
     while not hub.imu.ready():
         wait(1)
     hub.imu.reset_heading(0)
     hub.speaker.beep()
+    Console.Stats()
     
 def main():
     index = 0
-    d = 0
+    display = 0
+    allerted = 0
     while True:
-        b = hub.buttons.pressed()
-        if Button.CENTER in b:
-            if index == 0:
-                b = hub.buttons.pressed()
-                while not Button.RIGHT in b and not Button.LEFT in b:
-                    b = hub.buttons.pressed
-                    if d < 2:
-                        hub.display.char("A")
-                    else:
-                        hub.display.off()
-                if Button.RIGHT in b:
-                    Tasks.across(1)
-                else:
-                    Tasks.across()
-            else:
-                Console.Run(index, TaskList[index-1])
-                index += 1
-        if Button.LEFT in b:
+        buttons = hub.buttons.pressed()
+        if Button.CENTER in buttons:
+            Console.Run(index, TaskList[index+1])
+            index += 1
+        if Button.LEFT in buttons:
             index -= 1
             hub.speaker.beep()
-            d = 1
-        if Button.RIGHT in b:
+            display = 1
+        if Button.RIGHT in buttons:
             index += 1
-            d = 1
+            display = 1
             hub.speaker.beep()
-        index = Math.constrain(index, 0, len(TaskList)-1)
-        if d < 2:
-            if index == 0:
-                hub.display.char("A")
-            else:
-                Console.dispNumber(index)
-            d += 1
+        index = Math.constrain(index, -1, len(TaskList)-2)
+        if display < 2:
+            Console.dispMenu(index)
+            display += 1
         else: 
             hub.display.off()
-            d = 0
+            display = 0
         wait(100)
+        if Timer.time() > 100000 and allerted < 1:
+            print("")
+            print("20 seconds left!")
+            allerted = 1
+        if Timer.time() > 120000 and allerted < 2:
+            print("")
+            print("2 Minutes is up!")
+            if Timer.time() < 120005:
+                print("Overtime " + str(Timer.time-120000) + "ms")
+            allerted = 2
 setup()
 main()
