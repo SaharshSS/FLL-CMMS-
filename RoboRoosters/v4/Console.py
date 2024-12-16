@@ -33,6 +33,7 @@ def dispMenu(index):
             hub.display.char("L")
 
 def Run(index, function):
+    Timer.startMission()
     Arm.resetArm()
     dispMenu(index)
     print("")
@@ -47,7 +48,7 @@ def Run(index, function):
     v2 = Battery.voltage()
     print("")
     print("Battery voltage " + str(v2) + "v / Percentage" + str(Battery.percentage(v2)) + "%")
-    print("Time " + str(Timer.time()) + "ms")
+    print("Time " + str(Timer.mTime()) + "ms")
     Arm.resetArm()
     Arm.disableArm()
     Tasks.Stop()
