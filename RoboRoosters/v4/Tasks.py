@@ -13,7 +13,7 @@ right.control.target_tolerances(360, 5)
 drive = DriveBase(left, right, wheel_diameter=56.34, axle_track=139.7)
 
 drive.use_gyro(True)
-drive.settings(straight_speed = 750, straight_acceleration = 1000, turn_rate = 750, turn_acceleration = 1000)
+drive.settings(straight_speed = 750, straight_acceleration = 750, turn_rate = 750, turn_acceleration = 1000)
 
 print("Tasks.py loaded")
 
@@ -35,16 +35,23 @@ def Stop():
 def task1():
     Arm.turnArm(55, 55, 3)
     drive.turn(45)
-    drive.straight(200)
+    drive.straight(250)
     drive.turn(-45)
-    drive.straight(500)
+    drive.straight(475)
     drive.straight(-100)
     drive.turn(-90)
     drive.straight(150)
-    Arm.armUp()
     drive.straight(-150)
-    drive.turn(-90)
-    drive.straight(400)
+    drive.turn(90)
+    drive.straight(-50)
+    drive.turn(-45)
+    drive.straight(200)
+    Arm.turnArm(0, 0)
+    wait(500)
+    drive.straight(-200)
+    Arm
+    drive.turn(-135)
+    drive.straight(500)
     drive.turn(45)
     drive.straight(200)
 
@@ -71,14 +78,13 @@ def task3():
     drive.turn(-45)
     drive.straight(500)
     drive.turn(180)
-    drive.straight(-100)
+    drive.straight(-300)
     drive.turn(-90)
     Arm.turnArm(0, 0, 2, 50)
-    wait(1000)
-    Arm.resetArm()
-    drive.straight(-100)
     drive.turn(90)
-    drive.straight(500)
+    Arm.resetArm()
+    Arm.armUp()
+    drive.straight(800)
     drive.turn(45)
     drive.straight(200)
 
@@ -157,6 +163,7 @@ def task9():
     drive.straight(-600)
     Arm.resetArm()
     drive.turn(45)
+    drive.stop()
     print("3 seconds to put in squid")
     wait(3000)
     drive.turn(-45)
@@ -177,7 +184,7 @@ def task10():
     drive.turn(-90)
     drive.straight(250)
     drive.turn(45)
-    drive.straight(500)
+    drive.straight(525)
     drive.turn(45)
     drive.straight(325)
     drive.turn(-35)
@@ -187,11 +194,11 @@ def task10():
         wait(200)
         drive.straight(-100)
         Arm.resetArm()
-    drive.straight(-300)
+    drive.straight(-35)
     drive.turn(-145)
     drive.straight(325)
     drive.turn(-45)
-    drive.straight(500)
+    drive.straight(525)
     drive.turn(-45)
     drive.straight(350)
 
@@ -224,14 +231,20 @@ def task13():
     drive.straight(500)
     drive.turn(135)
     drive.straight(-75)
-    Arm.turnArm(0, -5, 2, 150)
+    Arm.turnArm(0, -5, 1, 150)
     drive.straight(100)
-    Arm.turnArm(0, 45, 2, 150)
+    Arm.turnArm(35, 0, 2, 150)
     drive.straight(50)
     Arm.resetArm()
     drive.straight(150)
-    drive.straight(-150)
-    drive.turn(45)
+    Arm.armUp()
+    drive.straight(-165)
+    drive.turn(-45)
+    Arm.turnArm(-40, 55, 1)
+    drive.straight(-200)
+    Arm.armUp()
+    drive.straight(200)
+    drive.turn(90)
     drive.straight(525)
     drive.turn(-45)
     drive.straight(100)
@@ -241,7 +254,6 @@ def task14():
 
 def task15():
     Arm.armUp()
-    drive.straight(10)
     drive.turn(90)
     drive.straight(200)
     Arm.resetArm()
@@ -252,17 +264,39 @@ def task15():
     drive.straight(250)
     drive.turn(-45)
     drive.straight(600)
-    drive.straight(-600)
+    drive.straight(-400)
     drive.turn(-90)
     drive.straight(250)
     drive.turn(90)
-    drive.straight(650)
+    drive.straight(850)
     drive.turn(45)
     drive.straight(100)
 
 def pushups():
-    for i in range(50):
+    while True:
         Arm.turnArm(0, -90, 2, 2500)
         wait(500)
         Arm.turnArm(-90, -90, 0, 2500)
         wait(500)
+
+def TrackLine(Distance, NewDistance=0, NewDirection=1):
+    if NewDistance >= Distance:
+        drive.straight(0, Stop.COAST)
+        return
+
+    if Color.getColor() == "White":
+        NewDirection = NewDirection * -1
+        while Color.getColor() != "White":
+            drive.curve(20 * NewDirection, 1, Stop.COAST)
+        drive.straight(1, Stop.COAST)
+        NewDistance += 0.5
+    TrackLine(Distance, NewDistance, NewDirection)
+
+def TrackLine1(Distance = 100, Direction=True):
+    curve_direction = 20 if Direction else -20
+    while NewDistance < Distance:
+        if Color.getColor() == "White":
+            drive.straight(1, Stop.COAST)
+        else:
+            drive.curve(curve_direction, 1, Stop.COAST)
+        NewDistance += 1
