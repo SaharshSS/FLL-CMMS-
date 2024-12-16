@@ -1,11 +1,11 @@
 from pybricks.hubs import PrimeHub
 from pybricks.parameters import Button, Icon
 from pybricks.tools import wait
-import Arm, Console, Tasks, Math, Timer
+import Arm, Console, Tasks, Math, Timer, Color
 
 hub = PrimeHub()
 
-TaskList = [Tasks.acrossl, Tasks.acrossr, Tasks.task1, Tasks.task2, Tasks.task3, Tasks.task4, Tasks.task5, Tasks.task6, Tasks.task7, Tasks.task8, Tasks.task9, Tasks.task10, Tasks.task11, Tasks.task12, Tasks.task13, Tasks.task14, Tasks.task15, Tasks.pushups]
+TaskList = [Tasks.acrossl, Tasks.acrossr, Tasks.task1, Tasks.task2, Tasks.task3, Tasks.task4, Tasks.task5, Tasks.task6, Tasks.task7, Tasks.task8, Tasks.task9, Tasks.task10, Tasks.task11, Tasks.task12, Tasks.task13, Tasks.task14, Tasks.task15, Tasks.pushups, Color.getColor]
 
 def setup():
     Timer.reset()
@@ -48,11 +48,13 @@ def main():
             print("")
             print("20 seconds left!")
             allerted = 1
-        if Timer.time() > 120000 and allerted < 2:
+        if Timer.time() > 150000 and allerted < 2:
             print("")
-            print("2 Minutes is up!")
-            if Timer.time() < 120005:
-                print("Overtime " + str(Timer.time-120000) + "ms")
+            print("2:30 minutes is up!")
+            if Timer.time() < 150005:
+                print("Overtime " + str(Timer.time-150000) + "ms")
             allerted = 2
+            for i in range(10):
+                hub.speaker.beep()
 setup()
 main()
