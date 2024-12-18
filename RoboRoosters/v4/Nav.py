@@ -61,3 +61,19 @@ def NavC():
   drive.straight(250)
   drive.turn(-90)
   #task 9 1
+  drive.straight(-400)
+def NavD():
+  drive.turn(-10)
+  drive.straight(550)
+  drive.turn(-80)
+  drive.straight(400)
+  drive.turn(-135)
+  #Task 9 2, Might not need to remove comment
+  drive.turn(180)
+  drive.straight(100)
+  #Task 14
+  drive.straight(-200)
+  drive.turn(45)
+  drive.straight(100)
+  drive.turn(45)
+  #Task 10
