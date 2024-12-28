@@ -41,6 +41,6 @@ def main():
             voltage = Battery.voltage()
             print("Battery voltage:", voltage + ", Battery percentage:", Battery.percentage(voltage))
         index = Math.constrain(index, 0, len(menuList)-1)   
-
+        wait(250)
 setup()
 main()
