@@ -28,19 +28,25 @@ def main():
     while True:
         Display.display(menuList[index])
         pressed = hub.buttons.pressed()
-        if Button.LEFT in pressed: 
+        if Button.LEFT in pressed:
+            hub.speaker.beep() 
             index = index - 1
+            index = Math.constrain(index, 0, 100)
+            Display.display(menuList[index], True)
         if Button.RIGHT in pressed:
+            hub.speaker.beep()
             index = index + 1
+            index = Math.constrain(index, 0, len(menuList)-1)
+            Display.display(menuList[index], True)
         if Button.CENTER in pressed:
+            hub.speaker.beep()
             print("Running:", motionList[index].__name__)
-            Display.display(menuList[index])
+            Display.display(menuList[index], True)
             Timer.startMission()
             motionList[index]()
             print("Mission time:", Timer.mTime() + ", Total time:", Timer.time())
             voltage = Battery.voltage()
             print("Battery voltage:", voltage + ", Battery percentage:", Battery.percentage(voltage))
-        index = Math.constrain(index, 0, len(menuList)-1)   
         wait(250)
 setup()
 main()
