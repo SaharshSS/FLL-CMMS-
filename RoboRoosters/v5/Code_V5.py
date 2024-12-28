@@ -18,6 +18,7 @@ def setup():
         wait(1)
     hub.speaker.beep()
     print("Hub version:", version)
+    voltage = Battery.voltage()
     print("Battery voltage:", voltage + ", Battery percentage:", Battery.percentage(voltage))
 
 def main():
