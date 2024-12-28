@@ -1,3 +1,4 @@
+from pybricks.tools import wait
 import Arm, Console, Color, Drive
 
 def mission1():
