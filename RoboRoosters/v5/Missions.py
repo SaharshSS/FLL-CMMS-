@@ -1,24 +1,26 @@
 from pybricks.tools import wait
-import Arm, Console, Color, Drive
+import Arm, Drive
 
 def mission1():
-    Arm.turnArm(55, 55, 3)
-    Drive.straight(150)
+    Arm.turnArm(65, 65)
+    Drive.straight(200)
+    wait(500)
     Drive.back(150)
-    Arm.turnArm(0, 0)
-    Drive.back(-200)
     Arm.resetArm()
 
 def mission2():
-    Arm.resetArm()
     Arm.turnArm(0, 0)
     wait(500)
     Arm.resetArm()
 
 def mission3():
-    Arm.turnArm(0, 0, 2, 50)
-    wait(500)
+    Drive.turn(80)
     Arm.resetArm()
+    Drive.straight(50)
+    Arm.turnArm(45, -45, mode = 2)
+    wait(500)
+    Arm.armUp()
+    Drive.turn(100)
 
 def mission4():
     pass
@@ -55,19 +57,12 @@ def mission8():
 
 def mission9():
     Arm.armUp()
-    Drive.straight(200)
-    Drive.back(200)
+    Drive.straight(500)
+    Drive.back(500)
     Arm.resetArm()
 
 def mission10():
-    resetArm()
-    Drive.straight(100)
-    turnArm(20, 77.5, 1, 2500)
-    Drive.straight(100)
-    turnArm(45, 77.5, 1, 2500)
-    Drive.straight(100)
     Arm.armUp()
-    Drive.back(300)
 
 def mission11():
     pass
@@ -78,41 +73,15 @@ def mission12():
     Drive.back(200)
 
 def mission13():
-    Arm.turnArm(0, -5, 1, 150)
-    Drive.straight(100)
-    Arm.turnArm(0, 35, 2, 150)
-    Drive.straight(50)
-    Arm.resetArm()
-    Drive.straight(150)
-    Arm.armUp()
-    Drive.back(165)
-    Drive.turn(-45)
-    Arm.turnArm(-40, 55, 1)
-    Drive.back(200)
-    Arm.resetArm()
+    Drive.turn(60)
+    Arm.turnArm(45, 45)
+    Drive.turn(40)
 
 def mission14():
     pass
 
 def mission15():
-    Arm.armUp()
-    Drive.turn(90)
-    Drive.straight(200)
-    Arm.resetArm()
-    Drive.straight(500)
-    Drive.straight(-250)
-    Arm.armUp()
-    Drive.turn(45)
-    Drive.straight(250)
-    Drive.turn(-45)
-    Drive.straight(600)
-    Drive.straight(-400)
-    Drive.turn(-90)
-    Drive.straight(250)
-    Drive.turn(90)
-    Drive.straight(850)
-    Drive.turn(45)
-    Drive.straight(100)
+    pass
 
 def pushups():
     while True:
@@ -120,25 +89,3 @@ def pushups():
         wait(500)
         Arm.turnArm(-90, -90, 0, 2500)
         wait(500)
-
-def TrackLine(Distance, NewDistance=0, NewDirection=1):
-    if NewDistance >= Distance:
-        Drive.straight(0, Stop.COAST)
-        return
-
-    if Color.getColor() == "White":
-        NewDirection = NewDirection * -1
-        while Color.getColor() != "White":
-            Drive.curve(20 * NewDirection, 1, Stop.COAST)
-        Drive.straight(1, Stop.COAST)
-        NewDistance += 0.5
-    TrackLine(Distance, NewDistance, NewDirection)
-
-def TrackLine1(Distance = 100, Direction=True):
-    curve_direction = 20 if Direction else -20
-    while NewDistance < Distance:
-        if Color.getColor() == "White":
-            Drive.straight(1, Stop.COAST)
-        else:
-            Drive.curve(curve_direction, 1, Stop.COAST)
-        NewDistance += 1
