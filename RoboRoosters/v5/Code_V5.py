@@ -1,11 +1,12 @@
 from pybricks.hubs import PrimeHub
 from pybricks.parameters import Button, Icon
 from pybricks.tools import wait
-import Arm, Missions, Math, Timer, Navigation, Display, Battery
+from pybricks import version
+import Arm, Missions, Math, Timer, Navigation, Display, Drive, Battery
 
 hub = PrimeHub()
 
-motionList = [Navigation.acrossL, Navigation.acrossR, Navigation.MovementA, Navigation.MovementB, Navigation.MovementC, Navigation.movementD, Missions.mission1, Missions.mission2, Missions.mission3, Missions.mission4, Missions.mission5, Missions.mission6, Missions.mission7, Missions.mission8, Missions.mission9, Missions.mission10, Missions.mission11, Missions.mission12, Missions.mission13, Missions.mission14, Missions.mission15] #Missions for testing only
+motionList = [Navigation.acrossL, Navigation.acrossR, Navigation.MovementA, Navigation.MovementB, Navigation.MovementC, Navigation.MovementD, Missions.mission1, Missions.mission2, Missions.mission3, Missions.mission4, Missions.mission5, Missions.mission6, Missions.mission7, Missions.mission8, Missions.mission9, Missions.mission10, Missions.mission11, Missions.mission12, Missions.mission13, Missions.mission14, Missions.mission15] #Missions for testing only
 letterList = ["L", "R", "A", "B", "C", "D"]
 
 def setup():
@@ -17,22 +18,25 @@ def setup():
     while not hub.imu.ready():
         wait(1)
     hub.speaker.beep()
+    print("Hub name:", hub.system.name())
     print("Hub version:", version)
     voltage = Battery.voltage()
-    print("Battery voltage:", voltage + ", Battery percentage:", Battery.percentage(voltage))
+    print("Battery voltage:", str(voltage) + ", Battery percentage:", str(Battery.percentage(voltage)))
 
 def main():
     index = 2
-    menuList = letterList+range(len(motionList)-len(letterList))
+    displayOn = False
+    menuList = letterList
+    menuList.extend(range(1, len(motionList)-len(letterList)))
     print("Generated list:", menuList)
     while True:
-        Display.display(menuList[index])
+        displayOn = Display.display(menuList[index], displayOn)
         pressed = hub.buttons.pressed()
         if Button.LEFT in pressed:
             hub.speaker.beep() 
             index = index - 1
             index = Math.constrain(index, 0, 100)
-            Display.display(menuList[index], True)
+            Display.display(menuList[index], False)
         if Button.RIGHT in pressed:
             hub.speaker.beep()
             index = index + 1
@@ -40,13 +44,14 @@ def main():
             Display.display(menuList[index], True)
         if Button.CENTER in pressed:
             hub.speaker.beep()
-            print("Running:", motionList[index].__name__)
+            print("Running:" + menuList[index])
             Display.display(menuList[index], True)
             Timer.startMission()
             motionList[index]()
-            print("Mission time:", Timer.mTime() + ", Total time:", Timer.time())
+            Drive.stop()
+            print("Mission time:", str(Timer.mTime()) + ", Total time:", str(Timer.time()))
             voltage = Battery.voltage()
-            print("Battery voltage:", voltage + ", Battery percentage:", Battery.percentage(voltage))
-        wait(250)
+            print("Battery voltage:", str(voltage) + ", Battery percentage:", str(Battery.percentage(voltage)))
+        wait(100)
 setup()
 main()
