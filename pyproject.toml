@@ -2,7 +2,7 @@
 name = "cmms"
 version = "1.0.0-alpha.50"
 description = "Pybricks developer tools"
-authors = ["CMMS robotics club studdents"]
+authors = ["CMMS robotics club students"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://pybricks.com"
