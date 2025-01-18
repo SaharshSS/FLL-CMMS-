@@ -12,10 +12,9 @@ def display(displayVal, displayOn = False):
         displayOn = True
         if isinstance(displayVal, int):
             if displayVal < 10:
-                hub.display.number(displayVal)
+                hub.display.char(str(displayVal))
             else:
-                displayVal = str(displayVal)
-                hub.display.char(displayVal)
+                hub.display.number(int(displayVal))
         else:
             hub.display.char(displayVal)
     return displayOn
