@@ -6,12 +6,12 @@ from pybricks.tools import wait
 left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
 
-drive = DriveBase(left, right, wheel_diameter=56, axle_track=139.7)
+drive = DriveBase(left, right, wheel_diameter=62.4, axle_track=139.7)
 
 drive.use_gyro(True)
 drive.settings(straight_acceleration = 750, turn_acceleration = 1000)
 
-defaultSpeed = 650
+defaultSpeed = 850
 
 print("Drive.py loaded")
 
@@ -36,5 +36,9 @@ def back(distance, then = Stop.HOLD, wait = True, speed = defaultSpeed):
     straight(-distance, then, wait, speed)
 
 def back_square():
-    back(250, then=Stop.COAST, speed = 125)
-    wait(1500)
+    drive.settings(straight_speed = 125)
+    back(125, then=Stop.COAST)
+
+def front_square():
+    drive.settings(straight_speed = 125)
+    straight(125, then=Stop.COAST)
