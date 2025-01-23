@@ -2,19 +2,23 @@ from pybricks.parameters import Icon
 from pybricks.hubs import PrimeHub
 
 hub = PrimeHub()
-hub.display.icon(Icon.FALSE)
 
-def display(displayVal, displayOn = False):
+def char(char):
+    hub.display.char(str(char))
+
+def number(displayVal, displayOn = False): #Switch between fonts
     if displayOn == True:
         hub.display.off()
         displayOn = False
     else:
         displayOn = True
         if isinstance(displayVal, int):
-            if displayVal < 10:
-                hub.display.char(str(displayVal))
+            if displayVal < 10 and displayVal >= 0:
+                char(displayVal)
             else:
                 hub.display.number(int(displayVal))
         else:
-            hub.display.char(displayVal)
+            char(displayVal)
     return displayOn
+
+print("Display.py loaded")
