@@ -1,16 +1,15 @@
 from pybricks.parameters import Port, Direction
 from pybricks.pupdevices import Motor
 
-print("Arm.py loaded")
+try:
+    armMid = Motor(Port.F) #Motor ports 1
+    armBase = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+except OSError:
+    print("Using alternative arm ports") #Newer setup
+    armMid = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+    armBase = Motor(Port.E)
 
-
-armMid = Motor(Port.F)                              #Define motors
-armBase = Motor(Port.D, Direction.COUNTERCLOCKWISE)
-
-armMid.control.target_tolerances(180, 7.5)            #Make arm tollerances more precise
-armBase.control.target_tolerances(180, 7.5)
-
-def turnArm(midAngle, baseAngle, mode = 0, speed = 1000):   #Rotate arm
+def turn(midAngle, baseAngle, mode = 0, speed = 1750):   #Rotate arm
     if not mode:
         armMid.run_target(speed, midAngle, wait = False)
         armBase.run_target(speed, baseAngle)
@@ -24,13 +23,20 @@ def turnArm(midAngle, baseAngle, mode = 0, speed = 1000):   #Rotate arm
         armBase.run_target(speed, midAngle, wait = False)
         armMid.run_target(speed, baseAngle, wait = False)
 
-def resetArm():                                     #Arm reset to default position
-    turnArm(0, 77.5, 1, 2500)
+def reset():                                     #Arm reset to default position
+    turn(0, 90, 1, 2500)
 
-def armUp():                                        #Arm set to "Up" position
-    turnArm(80, 77.5, 1, 2500)
+def up():                                        #Arm set to "Up" position
+    turn(90, 90, 1, 2500)
 
-def disableArm():
-    resetArm()
+def hook():
+    turn(45, -45, 2, 2500)
+
+def disable():
     armMid.stop()
     armBase.stop()
+    
+reset()
+disable()
+
+print("Arm.py loaded")
