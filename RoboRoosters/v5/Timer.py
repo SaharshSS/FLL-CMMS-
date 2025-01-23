@@ -1,18 +1,18 @@
 from pybricks.tools import StopWatch
 
-watch = StopWatch()
-watch2 = StopWatch()
+total = StopWatch()
+mission = StopWatch()
 
 def reset():
-    watch.reset()
+    total.reset()
 
 def time():
-    return watch.time()
+    return total.time()
 
 def startMission():
-    watch2.reset()
+    mission.reset()
 
 def mTime():
-    return watch2.time()
+    return mission.time()
 
 print("Timer.py loaded")
