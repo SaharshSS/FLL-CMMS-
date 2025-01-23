@@ -1,18 +1,17 @@
 from pybricks.hubs import PrimeHub
 from pybricks.parameters import Button, Icon
 from pybricks.tools import wait
-from pybricks import version
-import Arm, Missions, Math, Timer, Navigation, Display, Drive, Battery
+import Arm, Missions, Math, Timer, Navigation, Display, Drive, Battery, usys
 
 hub = PrimeHub()
 
 def pushups():
     Drive.straight(0) #Add gyro stabilization
     for i in range(99):
-        Display.display(i)
-        Arm.turnArm(0, -90, 2, 1000+(i*50))
+        Display.number(i)
+        Arm.turn(0, -90, 2, 1000+(i*50))
         wait(500-(i*5))
-        Arm.turnArm(-90, -90, 0, 1000+(i*50))
+        Arm.turn(-90, -90, 0, 1000+(i*50))
         wait(500-(i*5))
         hub.speaker.beep()
 
@@ -21,15 +20,15 @@ letterList = ["L", "R", "A", "B", "C", "D"]
 
 def setup():
     Timer.reset()
+    hub.speaker.volume(100)
     hub.speaker.beep()
     hub.system.set_stop_button(Button.BLUETOOTH)
-    Arm.resetArm()
-    Arm.disableArm()
     while not hub.imu.ready():
         wait(1)
     hub.speaker.beep()
     print("Hub name:", hub.system.name())
-    print("Hub version:", version)
+    print("Hub version:", usys.version)
+    print("Hub implementation:", usys.implementation)
     voltage = Battery.voltage()
     print("Battery voltage:", str(voltage) + ", Battery percentage:", str(Battery.percentage(voltage)))
 
@@ -46,25 +45,25 @@ def main():
                 hub.speaker.beep() 
                 index = index - 1
                 index = Math.constrain(index, 0, 100)
-                Display.display(menuList[index])
+                Display.number(menuList[index])
             if Button.RIGHT in pressed:
                 hub.speaker.beep()
                 index = index + 1
                 index = Math.constrain(index, 0, len(menuList)-1)
-                Display.display(menuList[index])
+                Display.number(menuList[index])
             if Button.CENTER in pressed:
                 hub.speaker.beep()
                 print("Running:" + str(menuList[index]))
-                Display.display(menuList[index])
+                Display.number(menuList[index])
                 Timer.startMission()
                 motionList[index]()
                 Drive.stop()
-                Arm.disableArm()
-                print("Mission time:", str(Timer.mTime()) + ", Total time:", str(Timer.time()))
+                Arm.disable()
+                print("Mission time:", str(Math.convert_millis(Timer.mTime())) + ", Total time:", str(Math.convert_millis(Timer.time())))
                 voltage = Battery.voltage()
-                print("Battery voltage:", str(voltage) + ", Battery percentage:", str(Battery.percentage(voltage)))
+                print("Battery voltage:", str(voltage) + " mv, Battery percentage:", str(Battery.percentage(voltage)))
         else:
-            displayOn = Display.display(menuList[index], displayOn)
+            displayOn = Display.number(menuList[index], displayOn)
         wait(100)
 setup()
 main()
