@@ -1,5 +1,5 @@
 from pybricks.hubs import PrimeHub
-from pybricks.parameters import Button, Icon
+from pybricks.parameters import Button, Icon, Side
 from pybricks.tools import wait
 import Arm, Missions, Math, Timer, Navigation, Display, Drive, Battery, usys
 
@@ -23,7 +23,7 @@ def setup():
     hub.speaker.volume(100)
     hub.speaker.beep()
     hub.system.set_stop_button(Button.BLUETOOTH)
-    while not hub.imu.ready():
+    while not hub.imu.ready() and hub.imu.up() == Side.TOP:
         wait(1)
     hub.speaker.beep()
     print("Hub name:", hub.system.name())
@@ -31,14 +31,16 @@ def setup():
     print("Hub implementation:", usys.implementation)
     voltage = Battery.voltage()
     print("Battery voltage:", str(voltage) + ", Battery percentage:", str(Battery.percentage(voltage)))
+    print("Startup time:", str(Math.convert_millis(Timer.time())))
+    Timer.reset()
 
-def main():
+def menu():
     index = 2
     displayOn = False
     menuList = letterList
     menuList.extend(range(1, len(motionList)-len(letterList)+1))
     print("Generated list:", menuList)
-    while True:
+    while not Battery.charging():
         pressed = hub.buttons.pressed()
         if pressed:
             if Button.LEFT in pressed:
@@ -65,5 +67,15 @@ def main():
         else:
             displayOn = Display.number(menuList[index], displayOn)
         wait(100)
+
+def charging_mode():
+    while Battery.charging():
+        Display.number(Math.constrain(Battery.percentage(Battery.voltage()), 0, 99))
+        delay(100)
+    
+def main():
+    while True
+        menu()
+        charging_mode()
 setup()
 main()
